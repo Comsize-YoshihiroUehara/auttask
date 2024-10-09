@@ -34,6 +34,8 @@ CREATE TABLE task_db.t_task(
 	FOREIGN KEY(status_code) REFERENCES task_db.m_status(status_code)
 );
 
+USE task_db;
+
 INSERT into m_category (category_name) VALUES ('新商品A：開発プロジェクト');
 INSERT into m_category (category_name) VALUES ('既存商品B：改良プロジェクト');
 
