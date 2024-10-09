@@ -5,24 +5,35 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import model.entity.UserBean;
+
 public class UserDAO {
 
-	public boolean login(String userid, String password) throws ClassNotFoundException, SQLException {
+	public UserBean login(String userid, String password) throws ClassNotFoundException, SQLException {
 
-		String sql = "SELECT user_name FROM m_user WHERE user_id = ?,password = ?";
+		UserBean bean = new UserBean();
+
+		String sql = "SELECT user_name FROM m_user WHERE user_id = ? AND password = ?";
 
 		try (Connection con = ConnectionManager.getConnection();
-				PreparedStatement pstmt = con.prepareStatement(sql)) {
+				PreparedStatement pstmt = con
+						.prepareStatement(sql)) {
+
 			pstmt.setString(1, userid);
 			pstmt.setString(2, password);
 
 			ResultSet rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				return true;
+				bean.setUserID(rs.getString("user_id"));
+				bean.setPassWord(rs.getString("pasword"));
+				bean.setUserName(rs.getString("user_name"));
+				bean.setUpdateDataTime(rs.getInt("update_datetime"));
+
+				return bean;
 
 			} else {
-				return false;
+				return null;
 			}
 
 		}

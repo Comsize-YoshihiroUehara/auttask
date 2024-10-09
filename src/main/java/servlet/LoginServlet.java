@@ -41,6 +41,7 @@ public class LoginServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@SuppressWarnings("unused")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -48,25 +49,34 @@ public class LoginServlet extends HttpServlet {
 
 		UserBean bean = new UserBean();
 
-		String userid = request.getParameter("user_id");
-		String password = request.getParameter("password");
+		String UserId = request.getParameter("user_id");
+		String PassWord = request.getParameter("password");
 		try {
 
-			dao.login(userid, password);
+			dao.login(UserId,PassWord);
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 
 		String url;
-		
+
 		HttpSession session = request.getSession();
 
-		session.setAttribute("user_id", bean.getUserID());
+		if (bean != null) {
 
-		url = "menu.jsp";
+			session.setAttribute("user_id", bean.getUserID());
 
-			RequestDispatcher rd = request.getRequestDispatcher(url);
-			rd.forward(request, response);
+			url = "menu.jsp";
 
+		} else {
+
+			session.invalidate();
+
+			url = "login.jsp";
 		}
+
+		RequestDispatcher rd = request.getRequestDispatcher(url);
+		rd.forward(request, response);
+
 	}
+}

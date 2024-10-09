@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>ログイン画面</title>
 </head>
 <body>
 
-<h1>ログイン</h1>
-<form action = "loginservlet" method = "POST">
+	<h1>ログイン</h1>
+	<form action="loginservlet" method="POST">
 		<table>
 			<tr>
 				<th>ユーザID</th>
@@ -20,11 +20,10 @@
 				<td><input type="password" name="password">
 			</tr>
 		</table>
-	<br>
-	<div>
-	<input type="submit" value="ログイン">
-	</div>
+		<br>
+		<div>
+			<input type="submit" value="ログイン">
+		</div>
 	</form>
-	</div>
 </body>
 </html>
