@@ -45,7 +45,8 @@ public class TaskListServlet extends HttpServlet {
 		TaskListDAO dao = new TaskListDAO();
 		try {
 			taskList = dao.selectAllTask(userInfo);
-
+			
+		//TODO 暫定でExceptionを全てキャッチしていますが、細かく分けて書いてください。
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
