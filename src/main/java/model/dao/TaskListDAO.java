@@ -35,7 +35,7 @@ public class TaskListDAO {
 		//WHEREで条件指定の必要性が今後発生する？
 		//sb.append("WHERE ");
 		String sql = sb.toString();
-		/***************************************************/
+		/****************************************************/
 
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
