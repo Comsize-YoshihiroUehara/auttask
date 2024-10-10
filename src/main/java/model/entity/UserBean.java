@@ -3,15 +3,11 @@ package model.entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class UserBean implements Serializable{
+public class UserBean implements Serializable {
 	private String userId;
 	private String password;
 	private String userName;
 	private Timestamp updateDatetime;
-	
-	public UserBean() {
-		super();
-	}
 
 	public String getUserId() {
 		return userId;
@@ -44,6 +40,5 @@ public class UserBean implements Serializable{
 	public void setUpdateDatetime(Timestamp updateDatetime) {
 		this.updateDatetime = updateDatetime;
 	}
-	
-	
+
 }
