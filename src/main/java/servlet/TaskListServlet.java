@@ -38,18 +38,21 @@ public class TaskListServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		UserBean userInfo = (UserBean) session.getAttribute("userInfo");
 
-		//変数を宣言
+		//タスク一覧格納用の変数
 		List<TaskBean> taskList = null;
 
 		//データベースからタスク一覧を取得
 		TaskListDAO dao = new TaskListDAO();
 		try {
 			taskList = dao.selectAllTask(userInfo);
-			session.setAttribute("taskList", taskList);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
+
 		}
+
+		session.setAttribute("taskList", taskList);
 
 		//フォワード処理
 		String url = "tasklist.jsp";
@@ -64,8 +67,6 @@ public class TaskListServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 }
