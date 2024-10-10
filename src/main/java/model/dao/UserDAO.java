@@ -25,10 +25,10 @@ public class UserDAO {
 			ResultSet rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				bean.setUserID(rs.getString("user_id"));
-				bean.setPassWord(rs.getString("pasword"));
+				bean.setUserId(rs.getString("user_id"));
+				bean.setPassword(rs.getString("pasword"));
 				bean.setUserName(rs.getString("user_name"));
-				bean.setUpdateDataTime(rs.getInt("update_datetime"));
+				bean.setUpdateDatetime(rs.getTimestamp("updateDatetime"));
 
 				return bean;
 
