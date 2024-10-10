@@ -48,7 +48,10 @@ public class TaskListServlet extends HttpServlet {
 			taskList = dao.selectAllTask(userInfo);
 			
 		//TODO 暫定でExceptionを全てキャッチしていますが、細かく分けて書いてください。
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}catch(SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}

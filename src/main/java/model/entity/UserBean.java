@@ -9,6 +9,8 @@ public class UserBean implements Serializable {
 	private String userName;
 	private Timestamp updateDatetime;
 
+	
+	
 	public String getUserId() {
 		return userId;
 	}

@@ -13,29 +13,29 @@ public class UserDAO {
 
 		UserBean bean = new UserBean();
 
-		String sql = "SELECT user_name FROM m_user WHERE user_id = ? AND password = ?";
+		String sql = "SELECT user_id,user_name,updateDatetime FROM m_user WHERE user_id = ? AND password = ?";
 
 		//データベース接続
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con
 						.prepareStatement(sql)) {
-			//プレースホルダーにユーザーID・パスワードを格納
+			//プレースホルダーにユーザーID・パスワードをセット
 			pstmt.setString(1, Userid);
 			pstmt.setString(2, Password);
+
 			//SQL実行
 			ResultSet rs = pstmt.executeQuery();
-			
-			//リクエストで飛んできたユーザーID・パスワードと同じになるものを探す
+
+			//データが返ってきた場合、ビーンに格納してリターン
 			if (rs.next()) {
 				bean.setUserId(rs.getString("user_id"));
-				bean.setPassword(rs.getString("pasword"));
 				bean.setUserName(rs.getString("user_name"));
 				bean.setUpdateDatetime(rs.getTimestamp("updateDatetime"));
 
-				
 				return bean;
 
 			} else {
+				//返ってきていない場合、nullをリターン
 				return null;
 			}
 
