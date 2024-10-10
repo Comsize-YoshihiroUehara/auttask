@@ -9,7 +9,7 @@ import model.entity.UserBean;
 
 public class UserDAO {
 
-	public UserBean login(String userid, String password) throws ClassNotFoundException, SQLException {
+	public UserBean login(String Userid, String Password) throws ClassNotFoundException, SQLException {
 
 		UserBean bean = new UserBean();
 
@@ -19,8 +19,8 @@ public class UserDAO {
 				PreparedStatement pstmt = con
 						.prepareStatement(sql)) {
 
-			pstmt.setString(1, userid);
-			pstmt.setString(2, password);
+			pstmt.setString(1, Userid);
+			pstmt.setString(2, Password);
 
 			ResultSet rs = pstmt.executeQuery();
 
