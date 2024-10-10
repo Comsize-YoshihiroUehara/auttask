@@ -55,10 +55,8 @@ public class TaskListDAO {
 				bean.setUserId(rs.getString("user_id"));
 				bean.setStatusCode(rs.getString("status_code"));
 				bean.setMemo(rs.getString("memo"));
-
-				//Timestamp型の取得方法メソッドわからないので要Google
-				bean.setCreateDateTime(rs.getDate("create_datetime"));
-				bean.setUpdateTime(rs.getDate("update_datetime"));
+				bean.setCreateDateTime(rs.getTimestamp("create_datetime"));
+				bean.setUpdateTime(rs.getTimestamp("update_datetime"));
 
 				taskList.add(bean);
 			}
