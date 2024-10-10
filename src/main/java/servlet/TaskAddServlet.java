@@ -1,7 +1,9 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,7 +49,28 @@ public class TaskAddServlet extends HttpServlet {
 		TaskRegisterDAO dao = new TaskRegisterDAO();
 		TaskBean task = new TaskBean();
 		
+		task.setTaskName(request.getParameter("task_name"));
+		task.setCategoryId(Integer.parseInt(request.getParameter("category_id")));
+		//task.setLimitDate(request.getParameter("limit_date"));
+		request.getParameter("user_name");
+		task.setStatusCode(request.getParameter("status_code"));
+		task.setMemo(request.getParameter("memo"));
 		
+		try {
+			count = dao.registerTask(task);
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+		
+		if(count>0) {
+			url = "register-success.jsp";
+		}else {
+			url = "register-failure.jsp";
+		}
+		
+		RequestDispatcher rd = request.getRequestDispatcher(url);
+		rd.forward(request, response);
 	}
 
 }

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="java.util.List, model.entity.CategoryBean, model.entity.TaskBean, model.entity.StatusBean, model.entity.UserBean"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +16,19 @@
 			</tr>
 			<tr>
 				<th>カテゴリ情報</th>
-				<td><input type="number" name="category_id" required></td>
+				<td>
+				<select name="category_code">
+					<%
+						List<CategoryBean> categoryList = (List<CategoryBean>) session.getAttribute("categoryList");
+						for (CategoryBean category : categoryList) {
+					%>
+					<option value="<%=category.getCategoryId()%>">
+					<%=category.getCategoryName()%></option>
+					<%
+						}
+					%>
+				</select>				
+				</td>
 			</tr>
 			<tr>
 				<th>期限</th>
@@ -24,11 +36,35 @@
 			</tr>
 			<tr>
 				<th>担当者情報</th>
-				<td><input type="text" name="user_name" size="20" required></td>
+				<td>
+				<select name="user_id">
+						<% 
+							List<UserBean> userList = (List<UserBean>) session.getAttribute("userList");
+							for(UserBean user: userList){
+						%>
+						<option value="<%=user.getUserId()%>">
+						<%=user.getUserName()%></option>
+						<%	
+							}
+						%>
+				</select>
+				</td>
 			</tr>
 			<tr>
 				<th>ステータス情報</th>
-				<td><input type="text" name="status_code" size="2" required></td>
+				<td>
+				<select name="status_code">
+						<% 
+							List<StatusBean> statusList = (List<StatusBean>) session.getAttribute("statusList");
+							for(StatusBean status: statusList){
+						%>
+						<option value="<%=status.getStatusCode()%>">
+						<%=status.getStatusName()%></option>
+						<%	
+							}
+						%>
+				</select>
+				</td>
 			</tr>
 			<tr>
 				<th>メモ</th>
