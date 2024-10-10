@@ -8,7 +8,9 @@
 </head>
 <body>
 	<h1>タスク登録画面</h1>
+
 	<form action="taskregister" method="POST">
+
 		<table border=1>
 			<tr>
 				<th>タスク名</th>
@@ -17,7 +19,7 @@
 			<tr>
 				<th>カテゴリ情報</th>
 				<td>
-				<select name="category_code">
+				<select name="category_id">
 					<%
 						List<CategoryBean> categoryList = (List<CategoryBean>) session.getAttribute("categoryList");
 						for (CategoryBean category : categoryList) {

@@ -20,7 +20,7 @@ CREATE TABLE task_db.m_status(
 );
 
 CREATE TABLE task_db.t_task(
-	task_id INT PRIMARY KEY NOT NULL,
+	task_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	task_name VARCHAR(50) NOT NULL,
 	category_id INT NOT NULL,
 	limit_date DATE,

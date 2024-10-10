@@ -20,8 +20,8 @@ public class TaskRegisterDAO {
 			throws SQLException, ClassNotFoundException {
 		int rowsAffected = 0;
 
-		String sql = "INSERT INTO m_task (task_name, category_id, limit_date, user_id, status_code,"
-				+ " memo) VALUES(?,?,?,?,?,?)";
+		String sql = "INSERT INTO t_task (task_name, category_id, limit_date, user_id, status_code,"
+				+ " memo) VALUES (?,?,?,?,?,?)";
 
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)) {

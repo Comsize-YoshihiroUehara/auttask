@@ -101,14 +101,18 @@ public class TaskAddServlet extends HttpServlet {
 
 			rowsAffected = dao.registerTask(task);
 		} catch (SQLException | ClassNotFoundException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
+
 		}
 
 		if (rowsAffected > 0) {
+			//登録成功時
 			url = "register-success.jsp";
+
 		} else {
+			//登録失敗時
 			url = "register-failure.jsp";
+
 		}
 
 		RequestDispatcher rd = request.getRequestDispatcher(url);
