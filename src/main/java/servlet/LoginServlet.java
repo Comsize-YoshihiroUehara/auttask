@@ -52,7 +52,6 @@ public class LoginServlet extends HttpServlet {
 		//変数名にリクエストで送られて来た物を入れる
 		String UserId = request.getParameter("user_id");
 		String PassWord = request.getParameter("password");
-		
 		try {
 			bean = dao.login(UserId, PassWord);
 		} catch (SQLException | ClassNotFoundException e) {
@@ -60,10 +59,10 @@ public class LoginServlet extends HttpServlet {
 		}
 
 		String url;
-		
-		
-		
+	
 		HttpSession session = request.getSession();
+		
+		
 		
 		//ログイン認証する
 		if (bean == null) {
@@ -74,13 +73,9 @@ public class LoginServlet extends HttpServlet {
 			
 		} else {
 			
-			session.setAttribute("user_id",bean.getUserId());
-			session.setAttribute("password",bean.getPassword());
-			session.setAttribute("user_name", bean.getUserName());
-
+			  
 			url = "menu.jsp";
-
-			
+			session.setAttribute("userInfo",bean);
 			
 		}
 		
