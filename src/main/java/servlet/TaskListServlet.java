@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.dao.TaskListDAO;
+import model.entity.CategoryBean;
+import model.entity.StatusBean;
 import model.entity.TaskBean;
 import model.entity.UserBean;
 
@@ -40,17 +42,20 @@ public class TaskListServlet extends HttpServlet {
 
 		//タスク一覧格納用の変数
 		List<TaskBean> taskList = null;
-
+		List<CategoryBean> categoryList = null;
+		List<UserBean> userList = null;
+		List<StatusBean> statusList = null;
+		
 		//データベースからタスク一覧を取得
 		TaskListDAO dao = new TaskListDAO();
 		try {
 			taskList = dao.selectAllTask(userInfo);
 			
+			
 		//TODO 暫定でExceptionを全てキャッチしていますが、細かく分けて書いてください。
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
-
 		}
 
 		session.setAttribute("taskList", taskList);

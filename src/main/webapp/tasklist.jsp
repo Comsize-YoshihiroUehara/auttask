@@ -3,7 +3,7 @@
     <%@ page import="java.util.ArrayList, java.util.List" %>
     <%@ page import="model.entity.TaskBean, model.entity.UserBean, model.entity.CategoryBean" %>
     
-<% TaskBean taskList = (TaskBean)session.getAttribute("taskList"); %>
+<% List<TaskBean> taskList = (List<TaskBean>)session.getAttribute("taskList"); %>
 <!DOCTYPE html>
 <html>
 
@@ -25,6 +25,20 @@
 				<th>ステータス情報</th>
 				<th>メモ</th>
 			</tr>
+			<% 
+				for(TaskBean task: taskList){
+			%>
+			<tr>
+				<td><%=task.getTaskName()%></td>
+				<td><%=%></td>
+				<td><%=task.getLimitDate()%></td>
+				<td><%=%></td>
+				<td><%=%></td>
+				<td><%=task.getMemo()%></td>
+			</tr>
+			<%
+				}
+			%>
 		</thead>
 		<tbody>
 		</tbody>
