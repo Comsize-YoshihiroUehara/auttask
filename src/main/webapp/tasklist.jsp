@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ page import="java.util.ArrayList, java.util.List" %>
-    <%@ page import="model.entity.TaskBean, model.entity.UserBean, model.entity.CategoryBean" %>
+    <%@ page import="model.entity.TaskListBean" %>
     
-<% List<TaskBean> taskList = (List<TaskBean>)session.getAttribute("taskList"); %>
+<% List<TaskListBean> taskList = (List<TaskListBean>)session.getAttribute("taskList"); %>
 <!DOCTYPE html>
 <html>
 
@@ -26,14 +26,14 @@
 				<th>メモ</th>
 			</tr>
 			<% 
-				for(TaskBean task: taskList){
+				for(TaskListBean task: taskList){
 			%>
 			<tr>
 				<td><%=task.getTaskName()%></td>
-				<td><%=%></td>
+				<td><%=task.getCategoryName()%></td>
 				<td><%=task.getLimitDate()%></td>
-				<td><%=%></td>
-				<td><%=%></td>
+				<td><%=task.getUserName()%></td>
+				<td><%=task.getStatusName()%></td>
 				<td><%=task.getMemo()%></td>
 			</tr>
 			<%
