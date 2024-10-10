@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 
 public class TaskBean implements Serializable {
 										//カラム名
-	private int taskId; 				//task_id
+	private int taskId; 				//task_id		
 	private String taskName;			//task_name
 	private int categoryId;				//category_id
 	private Date limitDate;				//limit_date
