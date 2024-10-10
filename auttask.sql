@@ -36,11 +36,11 @@ CREATE TABLE task_db.t_task(
 
 USE task_db;
 
-INSERT INTO m_user (user_id, password, user_name) VALUES ('admin', 'root', 'ƒeƒXƒg—p');
+INSERT INTO m_user (user_id, password, user_name) VALUES ('admin', 'root', 'ãƒ†ã‚¹ãƒˆç”¨');
 
-INSERT into m_category (category_name) VALUES ('V¤•iAFŠJ”­ƒvƒƒWƒFƒNƒg');
-INSERT into m_category (category_name) VALUES ('Šù‘¶¤•iBF‰ü—ÇƒvƒƒWƒFƒNƒg');
+INSERT into m_category (category_name) VALUES ('æ–°å•†å“Aï¼šé–‹ç™ºãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆ');
+INSERT into m_category (category_name) VALUES ('æ—¢å­˜å•†å“Bï¼šæ”¹è‰¯ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆ');
 
-INSERT into m_status (status_code, status_name) VALUES (00, '–¢’…è');
-INSERT into m_status (status_code, status_name) VALUES (50, '’…è');
-INSERT into m_status (status_code, status_name) VALUES (99, 'Š®—¹');
+INSERT into m_status (status_code, status_name) VALUES (00, 'æœªç€æ‰‹');
+INSERT into m_status (status_code, status_name) VALUES (50, 'ç€æ‰‹');
+INSERT into m_status (status_code, status_name) VALUES (99, 'å®Œäº†');
