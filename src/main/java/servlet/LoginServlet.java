@@ -65,6 +65,7 @@ public class LoginServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
+		//ログイン認証する
 		if (bean == null) {
 
 			url = "login.jsp";
@@ -72,15 +73,17 @@ public class LoginServlet extends HttpServlet {
 			session.invalidate();
 			
 		} else {
-
+			
+			session.setAttribute("user_id",bean.getUserId());
+			session.setAttribute("password",bean.getPassword());
 			session.setAttribute("user_name", bean.getUserName());
 
 			url = "menu.jsp";
 
-
+			
 			
 		}
-
+		
 		RequestDispatcher rd = request.getRequestDispatcher(url);
 		rd.forward(request, response);
 

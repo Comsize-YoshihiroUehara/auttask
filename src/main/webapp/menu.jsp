@@ -7,6 +7,11 @@
 <title>メニュー画面</title>
 </head>
 <body>
+<%
+s
+session.getAttribute("UserName");
+%>
+
 <a href=""><button>タスク登録</button></a><br>
 <a href="list"><button>タスク一覧</button></a><br>
 <a href="logout.jsp"><button>ログアウト</button></a><br>
