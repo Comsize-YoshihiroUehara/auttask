@@ -9,6 +9,6 @@
 <body>
 <a href=""><button>タスク登録</button></a><br>
 <a href="list"><button>タスク一覧</button></a><br>
-<a href=""><button>ログアウト</button></a><br>
+<a href="logout.jsp"><button>ログアウト</button></a><br>
 </body>
 </html>

@@ -15,21 +15,24 @@ public class UserDAO {
 
 		String sql = "SELECT user_name FROM m_user WHERE user_id = ? AND password = ?";
 
+		//データベース接続
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con
 						.prepareStatement(sql)) {
-
+			//プレースホルダーにユーザーID・パスワードを格納
 			pstmt.setString(1, Userid);
 			pstmt.setString(2, Password);
-
+			//SQL実行
 			ResultSet rs = pstmt.executeQuery();
-
+			
+			//リクエストで飛んできたユーザーID・パスワードと同じになるものを探す
 			if (rs.next()) {
 				bean.setUserId(rs.getString("user_id"));
 				bean.setPassword(rs.getString("pasword"));
 				bean.setUserName(rs.getString("user_name"));
 				bean.setUpdateDatetime(rs.getTimestamp("updateDatetime"));
 
+				
 				return bean;
 
 			} else {
