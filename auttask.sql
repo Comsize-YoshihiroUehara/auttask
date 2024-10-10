@@ -36,6 +36,8 @@ CREATE TABLE task_db.t_task(
 
 USE task_db;
 
+INSERT INTO m_user (user_id, password, user_name) VALUES ('admin', 'root', 'テスト用');
+
 INSERT into m_category (category_name) VALUES ('新商品A：開発プロジェクト');
 INSERT into m_category (category_name) VALUES ('既存商品B：改良プロジェクト');
 
