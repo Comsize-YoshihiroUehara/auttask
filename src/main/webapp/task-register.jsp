@@ -8,7 +8,7 @@
 </head>
 <body>
 	<h1>タスク登録画面</h1>
-	<form action="task-add-servlet" method="POST">
+	<form action="taskregister" method="POST">
 		<table border=1>
 			<tr>
 				<th>タスク名</th>

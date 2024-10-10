@@ -23,7 +23,7 @@ import model.entity.UserBean;
 /**
  * Servlet implementation class TaskAddServlet
  */
-@WebServlet("/task-add-servlet")
+@WebServlet("/taskregister")
 public class TaskAddServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
