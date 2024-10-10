@@ -44,35 +44,41 @@ public class LoginServlet extends HttpServlet {
 	@SuppressWarnings("unused")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		//DAOの生成
 		UserDAO dao = new UserDAO();
-
+		
 		UserBean bean = new UserBean();
-
+		
+		//変数名にリクエストで送られて来た物を入れる
 		String UserId = request.getParameter("user_id");
 		String PassWord = request.getParameter("password");
+		
 		try {
-
-			dao.login(UserId, PassWord);
+			bean = dao.login(UserId, PassWord);
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 
 		String url;
-
+		
+		
+		
 		HttpSession session = request.getSession();
+		
+		if (bean == null) {
 
-		if (bean != null) {
+			url = "login.jsp";
+			
+			session.invalidate();
+			
+		} else {
 
-			session.setAttribute("user_id", bean.getUserId());
+			session.setAttribute("user_name", bean.getUserName());
 
 			url = "menu.jsp";
 
-		} else {
 
-			session.invalidate();
-
-			url = "login.jsp";
+			
 		}
 
 		RequestDispatcher rd = request.getRequestDispatcher(url);
