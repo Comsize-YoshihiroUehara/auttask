@@ -15,12 +15,14 @@
 				<th>ユーザID</th>
 				<td><input type="text" name="user_id">
 			</tr>
+			
 			<tr>
 				<th>パスワード</th>
 				<td><input type="password" name="password">
 			</tr>
-		</table>
-		<br>
+			
+		</table> <br>
+		
 		<div>
 			<input type="submit" value="ログイン">
 		</div>

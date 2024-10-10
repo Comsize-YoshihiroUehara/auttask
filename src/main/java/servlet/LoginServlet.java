@@ -53,7 +53,7 @@ public class LoginServlet extends HttpServlet {
 		String PassWord = request.getParameter("password");
 		try {
 
-			dao.login(UserId,PassWord);
+			dao.login(UserId, PassWord);
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -64,7 +64,7 @@ public class LoginServlet extends HttpServlet {
 
 		if (bean != null) {
 
-			session.setAttribute("user_id", bean.getUserID());
+			session.setAttribute("user_id", bean.getUserId());
 
 			url = "menu.jsp";
 
