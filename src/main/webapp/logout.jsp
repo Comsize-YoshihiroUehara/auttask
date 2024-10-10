@@ -8,17 +8,13 @@
 <title>ログアウト画面</title>
 </head>
 <body>
-<%
-UserBean userInfo = (UserBean)session.getAttribute("userInfo");
-%>
 	<h1>ログアウト</h1><br>
 	
-<form action="login.jsp">
+	<form action="login.jsp">
 		<input type="submit" value="ログイン画面へ">
+	</form>
 <%
 session.invalidate();
 %>
-		
-	</form>
 </body>
 </html>
