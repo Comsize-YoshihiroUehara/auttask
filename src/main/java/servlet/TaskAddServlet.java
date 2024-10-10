@@ -82,8 +82,6 @@ public class TaskAddServlet extends HttpServlet {
 		String url = null;
 
 		TaskRegisterDAO dao = new TaskRegisterDAO();
-		TaskBean task = new TaskBean();
-
 		try {
 			// htmlのdateからリクエストを受け取ってTaskBeanの「期限」にセットする方法
 			// 補足資料の「日付と時刻の形式」を参照すること
@@ -92,6 +90,7 @@ public class TaskAddServlet extends HttpServlet {
 			Date date = Date.valueOf((String) request.getParameter("limit_date"));
 
 			// タスク登録用のデータをTaskBeanにセットする
+			TaskBean task = new TaskBean();
 			task.setTaskName(request.getParameter("task_name"));
 			task.setCategoryId(Integer.parseInt(request.getParameter("category_id")));
 			task.setLimitDate(date);
@@ -100,6 +99,7 @@ public class TaskAddServlet extends HttpServlet {
 			task.setMemo(request.getParameter("memo"));
 
 			rowsAffected = dao.registerTask(task);
+
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 

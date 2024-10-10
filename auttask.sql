@@ -1,3 +1,5 @@
+DROP DATABASE task_db;
+
 CREATE DATABASE task_db;
 
 CREATE TABLE task_db.m_user(
