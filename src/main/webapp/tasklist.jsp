@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ page import="java.util.ArrayList, java.util.List" %>
-    <%@ page import="model.entity.TaskBean, model.entity.UserBean, model.entity.CategoryBean" %>
+    <%@ page import="model.entity.TaskListBean" %>
     
-<% TaskBean taskList = (TaskBean)session.getAttribute("taskList"); %>
+<% List<TaskListBean> taskList = (List<TaskListBean>)session.getAttribute("taskList"); %>
 <!DOCTYPE html>
 <html>
 
@@ -27,6 +27,20 @@
 			</tr>
 		</thead>
 		<tbody>
+			<% 
+				for(TaskListBean task: taskList){
+			%>
+			<tr>
+				<td><%=task.getTaskName()%></td>
+				<td><%=task.getCategoryName()%></td>
+				<td><%=task.getLimitDate()%></td>
+				<td><%=task.getUserName()%></td>
+				<td><%=task.getStatusName()%></td>
+				<td><%=task.getMemo()%></td>
+			</tr>
+			<%
+				}
+			%>
 		</tbody>
 	</table>
 <% }else{ %>
