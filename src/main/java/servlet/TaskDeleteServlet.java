@@ -18,25 +18,16 @@ import model.entity.UserBean;
 /**
  * Servlet implementation class TaskDeleteServlet
  */
-@WebServlet(name = "/list/delete", urlPatterns = { "/taskdeleteservlet" })
+@WebServlet("/list/delete")
 public class TaskDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public TaskDeleteServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
 	}
 
 	/**
@@ -48,13 +39,13 @@ public class TaskDeleteServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		UserBean userInfo = (UserBean) session.getAttribute("userInfo");
 		
-		TaskListBean tasklist = new TaskListBean();
+		TaskListBean taskList = new TaskListBean();
 	
 		TaskDeleteDAO dao = new TaskDeleteDAO();
-		//削除件数
-		int rowsAffected = 0;
+		
 		String url;
-
+		//削除完了した件数
+		int rowsAffected = 0;
 		try {
 			
 			rowsAffected = dao.deleteTask((TaskListBean) (request.getAttribute("tasklist")));
@@ -63,15 +54,15 @@ public class TaskDeleteServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		//処理件数が0以上であれば成功画面、0以下であればエラー画面
+		
 		if (rowsAffected >= 0) {
-			url = "delete-success.jsp";
-			
+			url = "taskdelete-sucess.jsp";
 		} else {
 			url = "error.jsp";
 		}
 		
 		//セッションにタスクリストをセットする
-		session.setAttribute("tasklist",tasklist);
+		session.setAttribute("taskList",taskList);
 		RequestDispatcher rd = request.getRequestDispatcher(url);
 		rd.forward(request, response);
 	}

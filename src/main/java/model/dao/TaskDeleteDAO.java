@@ -8,9 +8,9 @@ import model.entity.TaskListBean;
 
 public class TaskDeleteDAO {
 
-	public int deleteTask(TaskListBean task) throws ClassNotFoundException, SQLException {
-		//削除件数
-		int rowsAffected = 0;
+	public int deleteTask(TaskListBean task) 
+			throws ClassNotFoundException, SQLException {
+		int rowsAffected = 0;//戻り値用の変数
 		
 		String sql = "DELETE FROM t_task WHERE task_name = ?,category_id = ?,limit_date = ?,user_name= ?,status_name=?,memo=?";
 		//SQL文実行
@@ -24,7 +24,8 @@ public class TaskDeleteDAO {
 
 			rowsAffected = pstmt.executeUpdate();
 		}
-		//削除件数を返す
+		
+		//削除完了した件数を返す
 		return rowsAffected;
 
 	}
