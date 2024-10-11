@@ -47,27 +47,31 @@ public class TaskDeleteServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		UserBean userInfo = (UserBean) session.getAttribute("userInfo");
+		
+		TaskListBean tasklist = new TaskListBean();
 	
 		TaskDeleteDAO dao = new TaskDeleteDAO();
 		//削除件数
-		int deleteNumber = 0;
-
+		int rowsAffected = 0;
 		String url;
 
 		try {
-
-			deleteNumber = dao.deleteTask((TaskListBean) (request.getAttribute("task_name")));
+			
+			rowsAffected = dao.deleteTask((TaskListBean) (request.getAttribute("tasklist")));
+			
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
-		if (deleteNumber >= 0) {
-
+		//処理件数が0以上であれば成功画面、0以下であればエラー画面
+		if (rowsAffected >= 0) {
 			url = "delete-success.jsp";
+			
 		} else {
 			url = "error.jsp";
 		}
 		
+		//セッションにタスクリストをセットする
+		session.setAttribute("tasklist",tasklist);
 		RequestDispatcher rd = request.getRequestDispatcher(url);
 		rd.forward(request, response);
 	}

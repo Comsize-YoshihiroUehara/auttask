@@ -9,11 +9,11 @@ import model.entity.TaskListBean;
 public class TaskDeleteDAO {
 
 	public int deleteTask(TaskListBean task) throws ClassNotFoundException, SQLException {
-
-		int deleteNumber = 0;
-
-		String sql = "DELETE FROM t_task WHERE task_name = ?,category_id = ?, limit_date = ?,staus_code = ?";
-
+		//削除件数
+		int rowsAffected = 0;
+		
+		String sql = "DELETE FROM t_task WHERE task_name = ?,category_id = ?,limit_date = ?,user_name= ?,status_name=?,memo=?";
+		//SQL文実行
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
 
@@ -22,9 +22,10 @@ public class TaskDeleteDAO {
 			pstmt.setDate(3, task.getLimitDate());
 			pstmt.setString(4, task.getStatusCode());
 
-			deleteNumber = pstmt.executeUpdate();
+			rowsAffected = pstmt.executeUpdate();
 		}
-		return deleteNumber;
+		//削除件数を返す
+		return rowsAffected;
 
 	}
 }

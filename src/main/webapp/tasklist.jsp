@@ -47,6 +47,6 @@
 	<p>タスクが登録されていません。</p>
 <% } %>
 	<a href="menu.jsp"><button>メニューへ戻る</button></a>
+	<a href="task-delete.jsp" ><button>削除</button></a>
 </body>
-
 </html>
