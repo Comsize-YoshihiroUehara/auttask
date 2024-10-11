@@ -21,7 +21,7 @@ import model.form.TaskEditForm;
 /**
  * Servlet implementation class TaskEditServlet
  */
-@WebServlet("/list/edit")
+@WebServlet("/edit")
 public class TaskEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -32,7 +32,6 @@ public class TaskEditServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		/*******************************************************************/
-		//現状GETでタスクIDを指定しているが、
 		//今後ログイン中のユーザごとに表示分けをするなら
 		//セッション内のユーザ情報を判別して処理を分ける必要性がある
 		/*******************************************************************/
@@ -83,15 +82,12 @@ public class TaskEditServlet extends HttpServlet {
 		//リクエスト処理
 		request.setCharacterEncoding("UTF-8");
 
-		// タスク編集用のデータをTaskBeanにセットする
-
-		//
-		TaskEditForm newTask = new TaskEditForm();
-
 		//UPDATE文を実行
 		TaskEditDAO dao = new TaskEditDAO();
-		int rowsAffected = 0; /* SQLで取得したレコード数を格納する */
+		int rowsAffected = 0; /* SQLで取得したレコード数を格納する変数 */
 		try {
+			TaskEditForm newTask = new TaskEditForm();
+
 			Date date = Date.valueOf((String) request.getParameter("limit_date"));
 
 			newTask.setTaskName(request.getParameter("task_name"));

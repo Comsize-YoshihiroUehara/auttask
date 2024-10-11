@@ -12,19 +12,83 @@ import model.entity.UserBean;
 import model.form.TaskEditForm;
 
 public class TaskEditDAO {
+
 	public TaskEditForm selectTaskByTaskId(int taskId)
 			throws ClassNotFoundException, SQLException {
-		TaskEditForm taskEditForm = new TaskEditForm();
+		TaskEditForm taskEditForm = new TaskEditForm();//戻り値用インスタンス
+
+		/* SQL作成 ***********************************************/
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT");
+		sb.append(" t1.task_id,");
+		sb.append(" t1.task_name,");
+		sb.append(" t1.category_id,");
+		sb.append(" t2.category_name,");
+		sb.append(" t1.limit_date,");
+		sb.append(" t1.user_id,");
+		sb.append(" t3.user_name,");
+		sb.append(" t1.status_code,");
+		sb.append(" t4.status_name,");
+		sb.append(" t1.memo,");
+		sb.append(" t1.create_datetime,");
+		sb.append(" t1.update_datetime ");
+		sb.append("FROM");
+		sb.append(" t_task t1 ");
+		sb.append("JOIN");
+		sb.append(" m_category t2 ");
+		sb.append("ON");
+		sb.append(" t1.category_id = t2.category_id ");
+		sb.append("JOIN");
+		sb.append(" m_user t3 ");
+		sb.append("ON");
+		sb.append(" t1.user_id = t3.user_id ");
+		sb.append("JOIN");
+		sb.append(" m_status t4 ");
+		sb.append("ON");
+		sb.append(" t1.status_code = t4.status_code ");
+		sb.append("WHERE");
+		sb.append(" task_id = ?");
+		String sql = sb.toString();
+		/*********************************************************/
+
+		try (Connection con = ConnectionManager.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql)) {
+			//プレースホルダに値をセット
+			pstmt.setInt(1, taskId);
+
+			//SQL実行
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				taskEditForm.setTaskId(rs.getInt("task_id"));
+				taskEditForm.setTaskName(rs.getString("task_name"));
+				taskEditForm.setCategoryId(rs.getInt("category_id"));
+				taskEditForm.setCategoryName(rs.getString("category_name"));
+				taskEditForm.setLimitDate(rs.getDate("limit_date"));
+				taskEditForm.setUserId(rs.getString("user_id"));
+				taskEditForm.setUserName(rs.getString("user_name"));
+				taskEditForm.setStatusCode(rs.getString("status_code"));
+				taskEditForm.setStatusName(rs.getString("status_name"));
+				taskEditForm.setMemo(rs.getString("memo"));
+				taskEditForm.setUpdateTime(rs.getTimestamp("update_datetime"));
+			}
+
+		}
 
 		return taskEditForm;
 	}
 
+	/*
+	 * フォームで入力された情報を受け取ってデータベースを更新するメソッド
+	 */
 	public int updateTask(TaskEditForm taskEditForm)
 			throws ClassNotFoundException, SQLException {
-		int rowsAffected = 0;
+		int rowsAffected = 0; //戻り値用変数
 
+		/* SQL作成 ***********************************************/
 		StringBuilder sb = new StringBuilder();
 		String sql = sb.toString();
+		/*********************************************************/
 
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
