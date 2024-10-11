@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="java.util.List, model.entity.CategoryBean, model.entity.TaskBean, model.entity.StatusBean, model.entity.UserBean"%>
+	<%
+	List<CategoryBean> categoryList = (List<CategoryBean>) session.getAttribute("categoryList");
+	List<UserBean> userList = (List<UserBean>) session.getAttribute("userList");
+	List<StatusBean> statusList = (List<StatusBean>) session.getAttribute("statusList");
+	%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,15 +26,15 @@
 				<td>
 				<select name="category_id">
 					<%
-						List<CategoryBean> categoryList = (List<CategoryBean>) session.getAttribute("categoryList");
-						for (CategoryBean category : categoryList) {
+					for (CategoryBean category : categoryList) {
 					%>
 					<option value="<%=category.getCategoryId()%>">
-					<%=category.getCategoryName()%></option>
+						<%=category.getCategoryName()%>
+					</option>
 					<%
-						}
+					}
 					%>
-				</select>				
+				</select>
 				</td>
 			</tr>
 			<tr>
@@ -41,13 +46,13 @@
 				<td>
 				<select name="user_id">
 						<% 
-							List<UserBean> userList = (List<UserBean>) session.getAttribute("userList");
-							for(UserBean user: userList){
+						for(UserBean user: userList){
 						%>
 						<option value="<%=user.getUserId()%>">
-						<%=user.getUserName()%></option>
+							<%=user.getUserName()%>
+						</option>
 						<%	
-							}
+						}
 						%>
 				</select>
 				</td>
@@ -57,13 +62,13 @@
 				<td>
 				<select name="status_code">
 						<% 
-							List<StatusBean> statusList = (List<StatusBean>) session.getAttribute("statusList");
-							for(StatusBean status: statusList){
+						for(StatusBean status: statusList){
 						%>
 						<option value="<%=status.getStatusCode()%>">
-						<%=status.getStatusName()%></option>
+							<%=status.getStatusName()%>
+						</option>
 						<%	
-							}
+						}
 						%>
 				</select>
 				</td>
@@ -73,7 +78,9 @@
 				<td><input type="text" name="memo" size="100"></td>
 			</tr>
 		</table>
-		<br> <input type="submit" value="登録実行"> <input type="reset" value="クリア">
+		<br>
+		<input type="submit" value="登録実行">
+		<input type="reset" value="クリア">
 	</form>
 	<br>
 </body>
