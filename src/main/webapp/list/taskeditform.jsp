@@ -21,12 +21,19 @@
 <body>
 	<h1><%=title%></h1>
 
+<<<<<<< HEAD:src/main/webapp/list/taskeditform.jsp
 	<form action="edit" method="POST">
+=======
+	<form action="/edit" method="POST">
+>>>>>>> d41cfc78266f35b878630ab0c81b6e1630cea3d0:src/main/webapp/taskeditform.jsp
 		<table border=1>
 			<tr>
 				<th>タスク名</th>
 				<td>
+<<<<<<< HEAD:src/main/webapp/list/taskeditform.jsp
 					<input type="hidden" name="task_id" value="<%=defaultForm.getCategoryId()%>">
+=======
+>>>>>>> d41cfc78266f35b878630ab0c81b6e1630cea3d0:src/main/webapp/taskeditform.jsp
 					<input type="text" name="task_name" size="50" required value="<%=defaultForm.getTaskName()%>">
 				</td>
 			</tr>
