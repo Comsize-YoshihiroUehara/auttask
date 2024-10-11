@@ -84,8 +84,8 @@ public class TaskEditDAO {
 	 */
 	public int updateTask(TaskEditForm taskEditForm)
 			throws ClassNotFoundException, SQLException {
-		int rowsAffected = 0; //戻り値用変数
 		
+		int rowsAffected = 0; //戻り値用変数
 		/* SQL作成 ***********************************************/
 		StringBuilder sb = new StringBuilder();
 		sb.append("UPDATE");   

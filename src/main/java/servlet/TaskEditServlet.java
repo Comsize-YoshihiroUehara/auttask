@@ -22,7 +22,7 @@ import model.form.TaskEditForm;
 /**
  * Servlet implementation class TaskEditServlet
  */
-@WebServlet("/list/edit")
+@WebServlet("/edit")
 public class TaskEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

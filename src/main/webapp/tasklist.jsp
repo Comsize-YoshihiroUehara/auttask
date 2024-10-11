@@ -46,7 +46,11 @@
 				<td><%=task.getMemo()%></td>
 				<td>
 					<%-- 編集ボタン --%>
+<<<<<<< HEAD
 					<a href="list/edit?task_id=<%=task.getTaskId()%>"><button>編集する</button></a>
+=======
+					<a href="/auttask/list/edit?task_id=<%=task.getTaskId()%>"><button>編集する</button></a>
+>>>>>>> d41cfc78266f35b878630ab0c81b6e1630cea3d0
 				</td>
 			</tr>
 			<%
