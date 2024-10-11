@@ -24,13 +24,6 @@ public class TaskListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public TaskListServlet() {
-		super();
-	}
-
-	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -41,24 +34,24 @@ public class TaskListServlet extends HttpServlet {
 
 		//タスク一覧格納用の変数
 		List<TaskListBean> taskList = null;
-		
+
 		//データベースからタスク一覧を取得
 		TaskListDAO dao = new TaskListDAO();
 		try {
 			taskList = dao.selectAllTask(userInfo);
-			
-		//TODO 暫定でExceptionを全てキャッチしていますが、細かく分けて書いてください。
+
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
-		}catch(SQLException e) {
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
-		}
 
+		}
 		session.setAttribute("taskList", taskList);
 
-		//フォワード処理
+		//フォワード
 		String url = "tasklist.jsp";
 		RequestDispatcher rd = request.getRequestDispatcher(url);
 		rd.forward(request, response);
@@ -71,6 +64,7 @@ public class TaskListServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		doGet(request, response);
 	}
 
 }
