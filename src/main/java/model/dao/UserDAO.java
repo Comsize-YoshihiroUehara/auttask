@@ -13,7 +13,7 @@ public class UserDAO {
 
 		UserBean bean = new UserBean();
 
-		String sql = "SELECT user_id,user_name,updateDatetime FROM m_user WHERE user_id = ? AND password = ?";
+		String sql = "SELECT user_id, user_name, update_datetime FROM m_user WHERE user_id = ? AND password = ?";
 
 		//データベース接続
 		try (Connection con = ConnectionManager.getConnection();
@@ -30,7 +30,7 @@ public class UserDAO {
 			if (rs.next()) {
 				bean.setUserId(rs.getString("user_id"));
 				bean.setUserName(rs.getString("user_name"));
-				bean.setUpdateDatetime(rs.getTimestamp("updateDatetime"));
+				bean.setUpdateDatetime(rs.getTimestamp("update_datetime"));
 
 				return bean;
 
