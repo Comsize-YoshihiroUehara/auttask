@@ -14,6 +14,7 @@
 
 <body>
 <h1>タスク一覧</h1>
+<a href="list/delete"><button form="delete">選択した項目を削除</button></a>
 <% if(!taskList.isEmpty()){ %>
 	<table border="1">
 		<thead>
@@ -34,7 +35,7 @@
 			%>
 			<tr>
 				<td>
-					<form action="" method="post" id="deleteForm">
+					<form action="" method="post" id="delete">
 						<input type="checkbox" name="task_id" value="<%=task.getTaskId()%>">
 					</form>
 				</td>
@@ -58,6 +59,7 @@
 			%>
 		</tbody>
 	</table>
+	
 <% }else{ %>
 	<p>タスクが登録されていません。</p>
 <% } %>
