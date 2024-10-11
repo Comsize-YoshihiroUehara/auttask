@@ -46,3 +46,5 @@ INSERT into m_category (category_name) VALUES ('既存商品B：改良プロジ�
 INSERT into m_status (status_code, status_name) VALUES (00, '未着手');
 INSERT into m_status (status_code, status_name) VALUES (50, '着手');
 INSERT into m_status (status_code, status_name) VALUES (99, '完了');
+
+UPDATE t_task SET

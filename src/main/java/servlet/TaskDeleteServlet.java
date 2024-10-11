@@ -27,7 +27,8 @@ public class TaskDeleteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+		response.setCharacterEncoding("UTF-8");
+		response.sendRedirect("../list");
 	}
 
 	/**
@@ -35,7 +36,7 @@ public class TaskDeleteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+		//TODO サーブレット書き換え
 		HttpSession session = request.getSession();
 		UserBean userInfo = (UserBean) session.getAttribute("userInfo");
 		
