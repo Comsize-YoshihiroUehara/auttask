@@ -14,16 +14,18 @@
 
 <body>
 <h1>タスク一覧</h1>
-<% if(taskList != null){ %>
-	<table>
+<% if(!taskList.isEmpty()){ %>
+	<table border="1">
 		<thead>
 			<tr>
+				<th></th>
 				<th>タスク名</th>
 				<th>カテゴリ</th>
 				<th>期限</th>
 				<th>担当者情報</th>
 				<th>ステータス情報</th>
 				<th>メモ</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -31,12 +33,21 @@
 				for(TaskListBean task: taskList){
 			%>
 			<tr>
+				<td>
+					<form action="" method="post" id="deleteForm">
+						<input type="checkbox" name="task_id" value="<%=task.getTaskId()%>">
+					</form>
+				</td>
 				<td><%=task.getTaskName()%></td>
 				<td><%=task.getCategoryName()%></td>
 				<td><%=task.getLimitDate()%></td>
 				<td><%=task.getUserName()%></td>
 				<td><%=task.getStatusName()%></td>
 				<td><%=task.getMemo()%></td>
+				<td>
+					<%-- 編集ボタン --%>
+					<a href="/list/edit?task_id=<%=task.getTaskId()%>"><button>編集する</button></a>
+				</td>
 			</tr>
 			<%
 				}
