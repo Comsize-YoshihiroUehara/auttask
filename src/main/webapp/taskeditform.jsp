@@ -1,20 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ page import="" %>
+
+<% String title = "タスク編集画面"; %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>タスク編集画面</title>
+<title><%=title%></title>
 </head>
 <body>
-	<h1>タスク登録画面</h1>
+	<h1><%=title%></h1>
 
-	<form action="taskregister" method="POST">
-
+	<form action="/list/register" method="POST">
 		<table border=1>
 			<tr>
 				<th>タスク名</th>
-				<td><input type="text" name="task_name" size="50" required></td>
+				<td>
+					<input type="text" name="task_name" size="50" required>
+				</td>
 			</tr>
 			<tr>
 				<th>カテゴリ情報</th>

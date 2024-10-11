@@ -14,8 +14,8 @@
 
 <body>
 <h1>タスク一覧</h1>
-<% if(taskList != null){ %>
-	<table>
+<% if(!taskList.isEmpty()){ %>
+	<table border="1">
 		<thead>
 			<tr>
 				<th>タスク名</th>
