@@ -4,14 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>タスク削除画面</title>
+<title>タスク削除確認画面</title>
 </head>
 <body>
-<h1>タスク削除</h1>
-<form action= "taskdeleteservlet" method= "POST">
-<a href=""><button>はい</button></a> <br>
 
-<a href=""><button>いいえ</button></a> <br>
+<form action= "taskdeleteservlet" method= "POST">
 
 </form>
 </body>
