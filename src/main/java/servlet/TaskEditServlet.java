@@ -22,7 +22,7 @@ import model.form.TaskEditForm;
 /**
  * Servlet implementation class TaskEditServlet
  */
-@WebServlet("/edit")
+@WebServlet("/list/edit")
 public class TaskEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -88,13 +88,13 @@ public class TaskEditServlet extends HttpServlet {
 
 		//UPDATE文を実行
 		TaskEditDAO dao = new TaskEditDAO();
-		int rowsAffected = 0; /* SQLで取得したレコード数を格納する変数 */
+		int rowsAffected = -1; /* SQLで取得したレコード数を格納する変数 */
 		try {
 			TaskEditForm newTask = new TaskEditForm();
 
 			Date date = Date.valueOf((String) request.getParameter("limit_date"));
 
-			newTask.setCategoryId(Integer.parseInt(request.getParameter("task_id")));
+			newTask.setTaskId(Integer.parseInt(request.getParameter("task_id")));
 			newTask.setTaskName(request.getParameter("task_name"));
 			newTask.setCategoryId(Integer.parseInt(request.getParameter("category_id")));
 			newTask.setLimitDate(date);
@@ -103,6 +103,7 @@ public class TaskEditServlet extends HttpServlet {
 			newTask.setMemo(request.getParameter("memo"));
 
 			rowsAffected = dao.updateTask(newTask);
+			System.out.println("a");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
@@ -114,6 +115,7 @@ public class TaskEditServlet extends HttpServlet {
 		}
 
 		//遷移先の分岐を設定
+		System.out.println(rowsAffected);
 		String url = "taskedit-failed.jsp";
 		if (rowsAffected > 0) {
 			url = "taskedit-success.jsp";

@@ -82,13 +82,13 @@ public class TaskEditDAO {
 	/*
 	 * フォームで入力された情報を受け取ってデータベースを更新するメソッド
 	 */
-	public int updateTask(TaskEditForm taskEditForm)
+	public int updateTask(TaskEditForm newTask)
 			throws ClassNotFoundException, SQLException {
-		
 		int rowsAffected = 0; //戻り値用変数
+
 		/* SQL作成 ***********************************************/
 		StringBuilder sb = new StringBuilder();
-		sb.append("UPDATE");   
+		sb.append("UPDATE");
 		sb.append(" t_task ");
 		sb.append("SET");
 		sb.append(" task_name = ?,");
@@ -98,6 +98,7 @@ public class TaskEditDAO {
 		//以下2つNOT NULLではないカラム
 		sb.append(" limit_date = ?,");
 		sb.append(" memo = ?");
+		//WHERE句でタスクIDを指定
 		sb.append("WHERE");
 		sb.append(" task_id = ?");
 		String sql = sb.toString();
@@ -105,13 +106,18 @@ public class TaskEditDAO {
 
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
-			
+
 			//プレースホルダに値をセット
-			pstmt.setString();//task_name
-			pstmt.setInt();//category_id
-			pstmt.setString();//user_id
-			pstmt.setString();//status_code
-			
+			pstmt.setString(1, newTask.getTaskName());//task_name
+			pstmt.setInt(2, newTask.getCategoryId());//category_id
+			pstmt.setString(3, newTask.getUserId());//user_id
+			pstmt.setString(4, newTask.getStatusCode());//status_code
+			//以下2つNOT NULLではないカラム
+			pstmt.setDate(5, newTask.getLimitDate());//limit_date
+			pstmt.setString(6, newTask.getMemo());//memo
+
+			pstmt.setInt(7, newTask.getTaskId());//task_id
+
 			//SQL実行
 			rowsAffected = pstmt.executeUpdate();
 		}
