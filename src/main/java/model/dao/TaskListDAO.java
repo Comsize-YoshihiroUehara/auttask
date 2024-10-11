@@ -15,7 +15,6 @@ public class TaskListDAO {
 	public List<TaskListBean> selectAllTask(UserBean userInfo)
 			throws ClassNotFoundException, SQLException {
 		//戻り値用変数
-		//jsp遷移後null判別して条件分岐させたいので初期値をnullにしています。
 		List<TaskListBean> taskList = null;
 
 		/*SQL準備********************************************/
@@ -24,9 +23,12 @@ public class TaskListDAO {
 		sb.append("SELECT");
 		sb.append(" t1.task_id,");
 		sb.append(" t1.task_name,");
+		sb.append(" t1.category_id,");
 		sb.append(" t2.category_name,");
 		sb.append(" t1.limit_date,");
+		sb.append(" t1.user_id,");
 		sb.append(" t3.user_name,");
+		sb.append(" t1.status_code,");
 		sb.append(" t4.status_name,");
 		sb.append(" t1.memo,");
 		sb.append(" t1.create_datetime,");
@@ -78,7 +80,6 @@ public class TaskListDAO {
 				taskList.add(bean);
 			}
 		}
-
 		return taskList; //処理終了
 	}
 	
