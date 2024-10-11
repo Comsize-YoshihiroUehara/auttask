@@ -18,14 +18,14 @@
 	<table border="1">
 		<thead>
 			<tr>
-				<th></th>
+				<th><%-- チェックボックス --%></th>
 				<th>タスク名</th>
 				<th>カテゴリ</th>
 				<th>期限</th>
 				<th>担当者情報</th>
 				<th>ステータス情報</th>
 				<th>メモ</th>
-				<th></th>
+				<th><%-- 編集ボタン --%></th>
 			</tr>
 		</thead>
 		<tbody>

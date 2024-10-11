@@ -22,7 +22,7 @@ import model.form.TaskEditForm;
 /**
  * Servlet implementation class TaskEditServlet
  */
-@WebServlet("/list/edit")
+@WebServlet("/edit")
 public class TaskEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -37,7 +37,7 @@ public class TaskEditServlet extends HttpServlet {
 		//セッション内のユーザ情報を判別して処理を分ける必要性がある
 		/*******************************************************************/
 
-		//リクエストを処理
+		//リクエストを受信
 		request.setCharacterEncoding("UTF-8");
 		int taskId = Integer.parseInt(request.getParameter("task_id"));
 
