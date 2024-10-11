@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -82,18 +83,25 @@ public class TaskEditServlet extends HttpServlet {
 		//リクエスト処理
 		request.setCharacterEncoding("UTF-8");
 
-		/*
-		request.getParameter("");
-		 */
+		// タスク編集用のデータをTaskBeanにセットする
 
 		//
-		TaskEditForm taskEditForm = new TaskEditForm();
+		TaskEditForm newTask = new TaskEditForm();
 
 		//UPDATE文を実行
 		TaskEditDAO dao = new TaskEditDAO();
 		int rowsAffected = 0; /* SQLで取得したレコード数を格納する */
 		try {
-			rowsAffected = dao.updateTask(taskEditForm);
+			Date date = Date.valueOf((String) request.getParameter("limit_date"));
+
+			newTask.setTaskName(request.getParameter("task_name"));
+			newTask.setCategoryId(Integer.parseInt(request.getParameter("category_id")));
+			newTask.setLimitDate(date);
+			newTask.setUserId(request.getParameter("user_id"));
+			newTask.setStatusCode(request.getParameter("status_code"));
+			newTask.setMemo(request.getParameter("memo"));
+
+			rowsAffected = dao.updateTask(newTask);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
@@ -104,7 +112,7 @@ public class TaskEditServlet extends HttpServlet {
 
 		}
 
-		//編集完了画面とエラー画面に分岐
+		//遷移先の分岐を設定
 		String url = "taskedit-failed.jsp";
 		if (rowsAffected > 0) {
 			url = "taskedit-success.jsp";
