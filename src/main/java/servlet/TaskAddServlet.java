@@ -87,6 +87,8 @@ public class TaskAddServlet extends HttpServlet {
 			// 補足資料の「日付と時刻の形式」を参照すること
 			// java側でDateクラスで扱うのはいろいろと問題があるのでLocalDateクラスを使う
 			// LocalDateクラスはsql.dateに変換することができる
+			
+			//NOT NULLカラムのnullチェック
 			Date date = null;
 			if (request.getParameter("limit_date").isEmpty() == false) {
 				date = Date.valueOf((String) request.getParameter("limit_date"));
@@ -105,6 +107,7 @@ public class TaskAddServlet extends HttpServlet {
 
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
+			throw new RuntimeException(e);
 
 		}
 
@@ -118,6 +121,7 @@ public class TaskAddServlet extends HttpServlet {
 
 		}
 
+		//フォワード
 		RequestDispatcher rd = request.getRequestDispatcher(url);
 		rd.forward(request, response);
 	}
