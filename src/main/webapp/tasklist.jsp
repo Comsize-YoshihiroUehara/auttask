@@ -25,6 +25,8 @@
 				<th>ステータス情報</th>
 				<th>メモ</th>
 			</tr>
+		</thead>
+		<tbody>
 			<% 
 				for(TaskListBean task: taskList){
 			%>
@@ -39,8 +41,6 @@
 			<%
 				}
 			%>
-		</thead>
-		<tbody>
 		</tbody>
 	</table>
 <% }else{ %>
