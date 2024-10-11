@@ -46,7 +46,7 @@
 				<td><%=task.getMemo()%></td>
 				<td>
 					<%-- 編集ボタン --%>
-					<a href="/list/edit?task_id=<%=task.getTaskId()%>"><button>編集する</button></a>
+					<a href="list/edit?task_id=<%=task.getTaskId()%>"><button>編集する</button></a>
 				</td>
 			</tr>
 			<%
