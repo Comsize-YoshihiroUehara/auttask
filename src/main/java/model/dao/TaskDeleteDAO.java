@@ -4,27 +4,42 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import model.entity.TaskListBean;
-
 public class TaskDeleteDAO {
 
-	public int deleteTask(TaskListBean task) 
+	public int deleteTaskByTaskId(int[] taskIds)
 			throws ClassNotFoundException, SQLException {
 		int rowsAffected = 0;//戻り値用の変数
-		
-		String sql = "DELETE FROM t_task WHERE task_name = ?,category_id = ?,limit_date = ?,user_name= ?,status_name=?,memo=?";
+
+		/*SQL準備********************************************/
+		StringBuilder sb = new StringBuilder();
+		sb.append("DELETE FROM");
+		sb.append(" t_task ");
+		sb.append("WHERE task_id ");
+
+		//IN句
+		sb.append("IN(");
+		for (int i = 0; i < taskIds.length; i++) {
+			sb.append("?");
+			if (i != (taskIds.length - 1)) {
+				sb.append(", ");
+			}
+		}
+		sb.append(")");
+		String sql = sb.toString();
+		/****************************************************/
+
 		//SQL文実行
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
 
-			pstmt.setString(1, task.getTaskName());
-			pstmt.setInt(2, task.getCategoryId());
-			pstmt.setDate(3, task.getLimitDate());
-			pstmt.setString(4, task.getStatusCode());
+			//プレースホルダに値をセット
+			for (int i = 0; i < taskIds.length; i++) {
+				pstmt.setInt(i + 1, taskIds[i]);
+			}
 
 			rowsAffected = pstmt.executeUpdate();
 		}
-		
+
 		//削除完了した件数を返す
 		return rowsAffected;
 

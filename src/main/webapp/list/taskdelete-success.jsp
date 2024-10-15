@@ -7,10 +7,11 @@
 <title>削除成功画面</title>
 </head>
 <body>
-<h1>削除成功</h1><br>
+	<h1>削除成功画面</h1>
+	<hr>
 
-タスクを削除しました。<br>
+	<p>タスクを削除しました。</p>
 
-<a href = "menu.jsp"><button>メニュー画面へ</button></a>
+	<a href = "../menu.jsp"><button>メニュー画面へ</button></a>
 </body>
 </html>

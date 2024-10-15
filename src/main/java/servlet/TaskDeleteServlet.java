@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.dao.TaskDeleteDAO;
-import model.entity.TaskListBean;
-import model.entity.UserBean;
 
 /**
  * Servlet implementation class TaskDeleteServlet
@@ -36,34 +34,43 @@ public class TaskDeleteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		//TODO サーブレット書き換え
+		int rowsAffected = 0;//SQLの処理件数を格納する用
+
+		//リクエストを処理
+		request.setCharacterEncoding("UTF-8");
+
+		//セッションを取得
 		HttpSession session = request.getSession();
-		UserBean userInfo = (UserBean) session.getAttribute("userInfo");
-		
-		TaskListBean taskList = new TaskListBean();
-	
+		/* 後でユーザごとに削除出来るタスクかどうか確認する為に使えそう */
+		//UserBean userInfo = (UserBean) session.getAttribute("userInfo");
+
 		TaskDeleteDAO dao = new TaskDeleteDAO();
-		
-		String url;
-		//削除完了した件数
-		int rowsAffected = 0;
 		try {
-			
-			rowsAffected = dao.deleteTask((TaskListBean) (request.getAttribute("tasklist")));
-			
+			if (request.getParameterValues("task_id_checkbox") != null) {
+				String[] taskIdsString = request.getParameterValues("task_id_checkbox");
+				int[] taskIdsInt = new int[taskIdsString.length];
+				for (int i = 0; i < taskIdsString.length; i++) {
+					taskIdsInt[i] = Integer.parseInt(taskIdsString[i]);
+				}
+
+				rowsAffected = dao.deleteTaskByTaskId(taskIdsInt);
+			}
+
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
+			throw new RuntimeException(e);
+
 		}
+
 		//処理件数が0以上であれば成功画面、0以下であればエラー画面
-		
-		if (rowsAffected >= 0) {
-			url = "taskdelete-sucess.jsp";
+		String url;
+		if (rowsAffected > 0) {
+			url = "taskdelete-success.jsp";
 		} else {
-			url = "error.jsp";
+			url = "taskdelete-failed.jsp";
 		}
-		
-		//セッションにタスクリストをセットする
-		session.setAttribute("taskList",taskList);
+
+		//フォワード
 		RequestDispatcher rd = request.getRequestDispatcher(url);
 		rd.forward(request, response);
 	}
