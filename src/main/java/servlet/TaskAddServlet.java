@@ -81,21 +81,21 @@ public class TaskAddServlet extends HttpServlet {
 			// LocalDateクラスはsql.dateに変換することができる
 
 			//NOT NULLカラムのnullチェック
-			Date date = null;
+			Date limitDate = null;
 			if (request.getParameter("limit_date").isEmpty() == false) {
-				date = Date.valueOf((String) request.getParameter("limit_date"));
+				limitDate = Date.valueOf((String) request.getParameter("limit_date"));
 			}
-			if(!TaskUtils.isValidDate(date)) {
+			if(!TaskUtils.isValidDate(limitDate)) {
 				//現状では入力された日付が登録日以前になっている場合、
 				//nullにしてSQLを送信する実装になっています。
-				date = null;
+				limitDate = null;
 			}
 
 			// タスク登録用のデータをTaskBeanにセットする
 			TaskBean task = new TaskBean();
 			task.setTaskName(request.getParameter("task_name"));
 			task.setCategoryId(Integer.parseInt(request.getParameter("category_id")));
-			task.setLimitDate(date);
+			task.setLimitDate(limitDate);
 			task.setUserId(request.getParameter("user_id"));
 			task.setStatusCode(request.getParameter("status_code"));
 			task.setMemo(request.getParameter("memo"));
