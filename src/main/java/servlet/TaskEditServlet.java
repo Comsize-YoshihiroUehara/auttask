@@ -41,12 +41,16 @@ public class TaskEditServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		int taskId = Integer.parseInt(request.getParameter("task_id"));
 
+		HttpSession sessionUser = request.getSession();
+		UserBean userInfo = (UserBean) sessionUser.getAttribute("userInfo"); // ログイン中のユーザIDを特定する
+
 		TaskEditDAO dao = new TaskEditDAO();
 		TaskEditForm defaultForm = null; //編集フォーム画面のデフォルト入力内容格納用
 
 		List<CategoryBean> categoryList = null;
 		List<UserBean> userList = null;
 		List<StatusBean> statusList = null;
+
 		try {
 			defaultForm = dao.selectTaskByTaskId(taskId);
 			categoryList = dao.selectAllCategory();
@@ -63,15 +67,25 @@ public class TaskEditServlet extends HttpServlet {
 
 		}
 
-		//セッションにオブジェクトを設定
-		HttpSession session = request.getSession();
-		session.setAttribute("defaultForm", defaultForm);
-		session.setAttribute("categoryList", categoryList);
-		session.setAttribute("userList", userList);
-		session.setAttribute("statusList", statusList);
+		// 編集ボタンを押下したときsessionに格納されているユーザIDと
+		// 編集ボタンのあるレコードのユーザIDが一致すれば編集画面への遷移を認める
+		String url = null;
+
+		if (userInfo.getUserId().equals(defaultForm.getUserId())) {
+
+			//セッションにオブジェクトを設定
+			HttpSession session = request.getSession();
+			session.setAttribute("defaultForm", defaultForm);
+			session.setAttribute("categoryList", categoryList);
+			session.setAttribute("userList", userList);
+			session.setAttribute("statusList", statusList);
+
+			url = "taskeditform.jsp"; // 編集化の画面jsp
+		} else {
+			url = "taskedit-failed.jsp"; // 編集不可のエラー画面jsp
+		}
 
 		//フォワード
-		String url = "taskeditform.jsp";
 		RequestDispatcher rd = request.getRequestDispatcher(url);
 		rd.forward(request, response);
 
