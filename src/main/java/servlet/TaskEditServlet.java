@@ -18,6 +18,7 @@ import model.entity.CategoryBean;
 import model.entity.StatusBean;
 import model.entity.UserBean;
 import model.form.TaskEditForm;
+import utils.TaskUtils;
 
 /**
  * Servlet implementation class TaskEditServlet
@@ -41,12 +42,16 @@ public class TaskEditServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		int taskId = Integer.parseInt(request.getParameter("task_id"));
 
+		HttpSession sessionUser = request.getSession();
+		UserBean userInfo = (UserBean) sessionUser.getAttribute("userInfo"); // ログイン中のユーザIDを特定する
+
 		TaskEditDAO dao = new TaskEditDAO();
 		TaskEditForm defaultForm = null; //編集フォーム画面のデフォルト入力内容格納用
 
 		List<CategoryBean> categoryList = null;
 		List<UserBean> userList = null;
 		List<StatusBean> statusList = null;
+
 		try {
 			defaultForm = dao.selectTaskByTaskId(taskId);
 			categoryList = dao.selectAllCategory();
@@ -63,15 +68,25 @@ public class TaskEditServlet extends HttpServlet {
 
 		}
 
-		//セッションにオブジェクトを設定
-		HttpSession session = request.getSession();
-		session.setAttribute("defaultForm", defaultForm);
-		session.setAttribute("categoryList", categoryList);
-		session.setAttribute("userList", userList);
-		session.setAttribute("statusList", statusList);
+		// 編集ボタンを押下したときsessionに格納されているユーザIDと
+		// 編集ボタンのあるレコードのユーザIDが一致すれば編集画面への遷移を認める
+		String url = null;
+
+		if (userInfo.getUserId().equals(defaultForm.getUserId())) {
+
+			//セッションにオブジェクトを設定
+			HttpSession session = request.getSession();
+			session.setAttribute("defaultForm", defaultForm);
+			session.setAttribute("categoryList", categoryList);
+			session.setAttribute("userList", userList);
+			session.setAttribute("statusList", statusList);
+
+			url = "taskeditform.jsp"; // 編集化の画面jsp
+		} else {
+			url = "taskedit-failed.jsp"; // 編集不可のエラー画面jsp
+		}
 
 		//フォワード
-		String url = "taskeditform.jsp";
 		RequestDispatcher rd = request.getRequestDispatcher(url);
 		rd.forward(request, response);
 
@@ -86,18 +101,27 @@ public class TaskEditServlet extends HttpServlet {
 		//リクエスト処理
 		request.setCharacterEncoding("UTF-8");
 
+		//タスク期限の妥当性チェック
+		Date limitDate;
+		String limitDateString = (String) request.getParameter("limit_date");
+		if (!TaskUtils.isValidDate(Date.valueOf(limitDateString))) {
+			//現状では入力された日付が登録日以前になっている場合、
+			//nullにしてSQLを送信する実装になっています。
+			limitDate = null;
+		} else {
+			limitDate = Date.valueOf(limitDateString);
+		}
+
 		//UPDATE文を実行
 		TaskEditDAO dao = new TaskEditDAO();
 		int rowsAffected = -1; /* SQLで取得したレコード数を格納する変数 */
 		try {
 			TaskEditForm newTask = new TaskEditForm();
 
-			Date date = Date.valueOf((String) request.getParameter("limit_date"));
-
 			newTask.setTaskId(Integer.parseInt(request.getParameter("task_id")));
 			newTask.setTaskName(request.getParameter("task_name"));
 			newTask.setCategoryId(Integer.parseInt(request.getParameter("category_id")));
-			newTask.setLimitDate(date);
+			newTask.setLimitDate(limitDate);
 			newTask.setUserId(request.getParameter("user_id"));
 			newTask.setStatusCode(request.getParameter("status_code"));
 			newTask.setMemo(request.getParameter("memo"));

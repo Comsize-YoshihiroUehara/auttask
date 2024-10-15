@@ -67,7 +67,7 @@ List<TaskListBean> taskList = (List<TaskListBean>) session.getAttribute("taskLis
 					<td><%=task.getStatusName()%></td>
 					<td><%=task.getMemo()%></td>
 					<td>
-						<%-- 編集ボタン --%> <a href="list/edit?task_id=<%=task.getTaskId()%>"><button>編集する</button></a>
+						<%-- 編集ボタン --%> <a href="list/edit?task_id=<%=task.getTaskId()%>"><button type="button">編集する</button></a>
 					</td>
 				</tr>
 			<%
