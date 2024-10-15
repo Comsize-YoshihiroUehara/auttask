@@ -64,33 +64,32 @@ public class TaskAddServlet extends HttpServlet {
 	}
 
 	/**
+	 * 入力されたタスクを登録するサーブレット
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	// 入力されたタスクを登録するサーブレット
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		int rowsAffected = -1;
 
 		request.setCharacterEncoding("UTF-8");
 
+		// htmlのdateからリクエストを受け取ってTaskBeanの「期限」にセットする方法
+		// 補足資料の「日付と時刻の形式」を参照すること
+		// java側でDateクラスで扱うのはいろいろと問題があるのでLocalDateクラスを使う
+		// LocalDateクラスはsql.dateに変換することができる
+		//タスク期限の妥当性チェック
+		Date limitDate;
+		String limitDateString = (String) request.getParameter("limit_date");
+		if (!TaskUtils.isValidDate(Date.valueOf(limitDateString))) {
+			//現状では入力された日付が登録日以前になっている場合、
+			//nullにしてSQLを送信する実装になっています。
+			limitDate = null;
+		} else {
+			limitDate = Date.valueOf(limitDateString);
+		}
+
 		TaskRegisterDAO dao = new TaskRegisterDAO();
 		try {
-			// htmlのdateからリクエストを受け取ってTaskBeanの「期限」にセットする方法
-			// 補足資料の「日付と時刻の形式」を参照すること
-			// java側でDateクラスで扱うのはいろいろと問題があるのでLocalDateクラスを使う
-			// LocalDateクラスはsql.dateに変換することができる
-
-			//NOT NULLカラムのnullチェック
-			Date limitDate;
-			String limitDateString = (String)request.getParameter("limit_date");
-			if(!TaskUtils.isValidDate(Date.valueOf(limitDateString))) {
-				//現状では入力された日付が登録日以前になっている場合、
-				//nullにしてSQLを送信する実装になっています。
-				limitDate = null;
-			} else {
-				limitDate = Date.valueOf(limitDateString);
-			}
-
 			// タスク登録用のデータをTaskBeanにセットする
 			TaskBean task = new TaskBean();
 			task.setTaskName(request.getParameter("task_name"));
