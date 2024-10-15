@@ -58,9 +58,11 @@ public class TaskRegisterDAO {
 	}
 
 	// タスク登録画面でユーザー名をプルダウンから選択できるようにするメソッド
-	public List<UserBean> selectAllUser() throws ClassNotFoundException, SQLException {
+	public List<UserBean> selectAllUser() 
+			throws ClassNotFoundException, SQLException {
 		List<UserBean> userList = null;
-		String sql = "SELECT * FROM m_user";
+		
+		String sql = "SELECT user_id, user_name FROM m_user";
 
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
