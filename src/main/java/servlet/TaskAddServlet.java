@@ -82,7 +82,7 @@ public class TaskAddServlet extends HttpServlet {
 
 			//NOT NULLカラムのnullチェック
 			Date limitDate;
-			String limitDateString = (String)request.getParameter("limit_date");
+			String limitDateString = (String)((String)request.getParameter("limit_date"));
 			if(!TaskUtils.isValidDate(Date.valueOf(limitDateString))) {
 				//現状では入力された日付が登録日以前になっている場合、
 				//nullにしてSQLを送信する実装になっています。
