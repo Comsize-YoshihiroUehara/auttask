@@ -52,7 +52,6 @@ public class TaskDeleteServlet extends HttpServlet {
 				for (int i = 0; i < taskIdsString.length; i++) {
 					taskIdsInt[i] = Integer.parseInt(taskIdsString[i]);
 				}
-
 				rowsAffected = dao.deleteTaskByTaskId(taskIdsInt);
 			}
 
