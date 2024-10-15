@@ -18,6 +18,7 @@ import model.entity.CategoryBean;
 import model.entity.StatusBean;
 import model.entity.TaskBean;
 import model.entity.UserBean;
+import utils.TaskUtils;
 
 /**
  * Servlet implementation class TaskAddServlet
@@ -68,10 +69,9 @@ public class TaskAddServlet extends HttpServlet {
 	// 入力されたタスクを登録するサーブレット
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+		int rowsAffected = -1;
 
-		int rowsAffected = 0;
-		String url = null;
+		request.setCharacterEncoding("UTF-8");
 
 		TaskRegisterDAO dao = new TaskRegisterDAO();
 		try {
@@ -79,18 +79,23 @@ public class TaskAddServlet extends HttpServlet {
 			// 補足資料の「日付と時刻の形式」を参照すること
 			// java側でDateクラスで扱うのはいろいろと問題があるのでLocalDateクラスを使う
 			// LocalDateクラスはsql.dateに変換することができる
-			
-			//NOT NULLカラムのnullチェック
-			Date date = null;
+
+			//
+			Date limitDate = null;
 			if (request.getParameter("limit_date").isEmpty() == false) {
-				date = Date.valueOf((String) request.getParameter("limit_date"));
+				limitDate = Date.valueOf((String) request.getParameter("limit_date"));
 			}
-		
+			if(!TaskUtils.isValidDate(limitDate)) {
+				//現状では入力された日付が登録日以前になっている場合、
+				//nullにしてSQLを送信する実装になっています。
+				limitDate = null;
+			}
+
 			// タスク登録用のデータをTaskBeanにセットする
 			TaskBean task = new TaskBean();
 			task.setTaskName(request.getParameter("task_name"));
 			task.setCategoryId(Integer.parseInt(request.getParameter("category_id")));
-			task.setLimitDate(date);
+			task.setLimitDate(limitDate);
 			task.setUserId(request.getParameter("user_id"));
 			task.setStatusCode(request.getParameter("status_code"));
 			task.setMemo(request.getParameter("memo"));
@@ -103,6 +108,7 @@ public class TaskAddServlet extends HttpServlet {
 
 		}
 
+		String url = null;
 		if (rowsAffected > 0) {
 			//登録成功時
 			url = "register-success.jsp";
