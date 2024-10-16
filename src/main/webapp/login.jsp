@@ -9,7 +9,7 @@
 <body>
 
 	<h1>ログイン</h1>
-	<form action="loginservlet" method="POST">
+	<form action="login" method="POST">
 		<table>
 			<tr>
 				<th>ユーザID</th>
