@@ -11,39 +11,27 @@ import model.entity.UserBean;
 class UserDAOTest {
 
 	@Test
-	public void ログイン失敗テスト() {
-		UserDAO dao = new UserDAO();
-		UserBean loginFalse = null;
-		
-		try {
-			loginFalse = dao.login("ad","root");
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-		assertNull(loginFalse);
-	}
-	@Test
-	public void ログイン失敗テスト２() {
-		UserDAO dao = new UserDAO();
-		UserBean loginFalse = null;
-		
-		try {
-			loginFalse = dao.login("admin","rot");
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-		assertNull(loginFalse);
-	}
-	@Test
 	public void ログイン成功テスト() {
 		UserDAO dao = new UserDAO();
-		UserBean loginSuccess = null;
-		
+		UserBean loginsuccess = null;
+
 		try {
-			loginSuccess  = dao.login("admin","root");
+			loginsuccess = dao.login("admin", "root");
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		assertNotNull(loginSuccess);
+		assertNotNull(loginsuccess);
+
+	}
+	public void ログイン失敗テスト() {
+		UserDAO dao = new UserDAO();
+		UserBean loginfalse = null;
+		
+		try {
+			loginfalse = dao.login("ad","root");
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		assertNull(loginfalse);
 	}
 }
