@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList, java.util.List"%>
-<%@ page import="model.entity.TaskListBean"%>
+<%@ page import="model.entity.TaskListBean, model.entity.UserBean"%>
 
 <%
+UserBean userInfo = (UserBean) session.getAttribute("userInfo");
 List<TaskListBean> taskList = (List<TaskListBean>) session.getAttribute("taskList");
 %>
 <!DOCTYPE html>
@@ -45,7 +46,13 @@ List<TaskListBean> taskList = (List<TaskListBean>) session.getAttribute("taskLis
 			for (TaskListBean task : taskList) {
 			%>
 				<tr>
-					<td><input type="checkbox" name="task_id_checkbox" value="<%=task.getTaskId()%>"></td>
+					<td>
+						<input type="checkbox" name="task_id_checkbox" 
+						<% if(!userInfo.getUserId().equals(task.getUserId())){%>
+							disabled
+						<% } %>
+						value="<%=task.getTaskId()%>">
+					</td>
 					<td><%=task.getTaskName()%></td>
 					<td><%=task.getCategoryName()%></td>
 	
@@ -67,7 +74,14 @@ List<TaskListBean> taskList = (List<TaskListBean>) session.getAttribute("taskLis
 					<td><%=task.getStatusName()%></td>
 					<td><%=task.getMemo()%></td>
 					<td>
-						<%-- 編集ボタン --%> <a href="list/edit?task_id=<%=task.getTaskId()%>"><button type="button">編集する</button></a>
+						<%-- 編集ボタン --%> 
+						<a href="list/edit?task_id=<%=task.getTaskId()%>">
+						<button 
+							type="button"
+						<% if(!userInfo.getUserId().equals(task.getUserId())){%>
+							disabled
+						<% } %>>
+						編集する</button></a>
 					</td>
 				</tr>
 			<%
