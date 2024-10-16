@@ -90,7 +90,7 @@ public class TaskRegisterDAO {
 			throws SQLException, ClassNotFoundException {
 		List<CategoryBean> categoryList = null;
 		
-		String sql = "SELECT category_id, category_name, FROM m_category";
+		String sql = "SELECT category_id, category_name FROM m_category";
 
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -117,7 +117,7 @@ public class TaskRegisterDAO {
 			throws SQLException, ClassNotFoundException {
 		List<StatusBean> statusList = null;
 
-		String sql = "SELECT * FROM m_status";
+		String sql = "SELECT status_code, status_name FROM m_status";
 
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
