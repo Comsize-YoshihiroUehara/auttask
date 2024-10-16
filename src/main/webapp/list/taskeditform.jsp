@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ page import="java.util.List" %>
+	<%@ page import="java.util.List, java.util.ArrayList" %>
 	<%@ page import="model.form.TaskEditForm, model.entity.CategoryBean, model.entity.TaskBean, model.entity.StatusBean, model.entity.UserBean" %>
 
 <% String title = "タスク編集画面"; %>
@@ -10,6 +10,7 @@
 	List<CategoryBean> categoryList = (List<CategoryBean>) session.getAttribute("categoryList");
 	List<UserBean> userList = (List<UserBean>) session.getAttribute("userList");
 	List<StatusBean> statusList = (List<StatusBean>) session.getAttribute("statusList");
+	List<String> errorMsg = (List<String>)session.getAttribute("errorMsg");
 %>
 
 <!DOCTYPE html>
@@ -21,6 +22,18 @@
 <body>
 	<h1><%=title%></h1>
 
+	<%-- エラーメッセージを表示 --%>
+	<% 
+	if(errorMsg != null){
+		for(String message : errorMsg){ %>
+		<h4><%=message%></h4>
+	<%
+		}
+	}
+	session.removeAttribute("errorMsg");
+	%>
+	
+	<%-- 入力フォーム --%>
 	<form action="edit" method="POST">
 		<table border=1>
 			<tr>
@@ -37,9 +50,9 @@
 						<%
 						for (CategoryBean category : categoryList) {
 						%>
-						<option value="<%=category.getCategoryId()%>">
-							<%=category.getCategoryName()%>
-						</option>
+							<option value="<%=category.getCategoryId()%>">
+								<%=category.getCategoryName()%>
+							</option>
 						<%
 						}
 						%>
@@ -55,9 +68,9 @@
 						<%
 						for (UserBean user : userList) {
 						%>
-						<option value="<%=user.getUserId()%>">
-							<%=user.getUserName()%>
-						</option>
+							<option value="<%=user.getUserId()%>">
+								<%=user.getUserName()%>
+							</option>
 						<%
 						}
 						%>
@@ -69,9 +82,9 @@
 						<%
 						for (StatusBean status : statusList) {
 						%>
-						<option value="<%=status.getStatusCode()%>">
-							<%=status.getStatusName()%>
-						</option>
+							<option value="<%=status.getStatusCode()%>">
+								<%=status.getStatusName()%>
+							</option>
 						<%
 						}
 						%>

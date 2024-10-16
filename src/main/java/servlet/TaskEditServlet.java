@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -99,21 +100,38 @@ public class TaskEditServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String url = null;
-		Date limitDate;
+		Date limitDate = null;
+
+		HttpSession session = request.getSession();
 
 		//リクエスト処理
 		request.setCharacterEncoding("UTF-8");
 		String taskName = (String) request.getParameter("task_name");
 		String limitDateString = (String) request.getParameter("limit_date");
 		String memo = (String) request.getParameter("memo");
+		int taskId = Integer.parseInt(request.getParameter("task_id"));
 
 		//フォーム入力内容のバリデーション
-		if (TaskUtils.isValidDate(limitDateString)) {
-			//現状では入力された日付が登録日以前になっている場合、
-			//nullにしてSQLを送信する実装になっています。
+		List<String> errorMsg = new ArrayList<>();
+		if (TaskUtils.isValidTaskName(taskName) != null) {
+			errorMsg.add(TaskUtils.isValidTaskName(taskName));
+		}
+		if (TaskUtils.isValidMemo(memo) != null) {
+			errorMsg.add(TaskUtils.isValidMemo(memo));
+		}
+		if (TaskUtils.isValidDate(limitDateString) != null) {
+			errorMsg.add(TaskUtils.isValidDate(limitDateString));
+		} else if(!limitDateString.isEmpty()){
 			limitDate = Date.valueOf(limitDateString);
-		} else {
-			limitDate = null;
+		}
+
+		if (errorMsg.size() > 0) {
+			session.setAttribute("errorMsg", errorMsg);
+
+			url = "edit?task_id=" + taskId;
+			response.setCharacterEncoding("UTF-8");
+			response.sendRedirect(url);
+			return;
 		}
 
 		//UPDATE文を実行
@@ -122,7 +140,7 @@ public class TaskEditServlet extends HttpServlet {
 		try {
 			TaskEditForm newTask = new TaskEditForm();
 
-			newTask.setTaskId(Integer.parseInt(request.getParameter("task_id")));
+			newTask.setTaskId(taskId);
 			newTask.setTaskName(taskName);
 			newTask.setCategoryId(Integer.parseInt(request.getParameter("category_id")));
 			newTask.setLimitDate(limitDate);
