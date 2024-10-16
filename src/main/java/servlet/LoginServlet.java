@@ -17,7 +17,7 @@ import model.entity.UserBean;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet(name = "loginservlet", urlPatterns = { "/loginservlet" })
+@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -26,7 +26,6 @@ public class LoginServlet extends HttpServlet {
 	 */
 	public LoginServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -34,49 +33,43 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.setCharacterEncoding("UTF-8");
+
+		String url = "login.jsp";
+		RequestDispatcher rd = request.getRequestDispatcher(url);
+		rd.forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@SuppressWarnings("unused")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		//DAOの生成
-		UserDAO dao = new UserDAO();
+		request.setCharacterEncoding("UTF-8");
 
-		//変数名にリクエストで送られて来た物を入れる
 		String userId = request.getParameter("user_id");
 		String password = request.getParameter("password");
 
+		UserDAO dao = new UserDAO();
 		UserBean bean = null;
 		try {
-			//ログイン認証する
 			bean = dao.login(userId, password);
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 
-		String url;
-		HttpSession session = request.getSession();
-		if (bean == null) {
-
-			url = "login.jsp";
-
-			session.invalidate();
-
-		} else {
-
-			url = "menu.jsp";
-
+		String url = null;
+		if (bean != null) {
+			//ログイン成功時
+			url = "menu";
+			HttpSession session = request.getSession();
 			session.setAttribute("userInfo", bean);
-
+		} else {
+			url = "login";
 		}
 
-		RequestDispatcher rd = request.getRequestDispatcher(url);
-		rd.forward(request, response);
-
+		response.setCharacterEncoding("UTF-8");
+		response.sendRedirect(url);
 	}
 }
