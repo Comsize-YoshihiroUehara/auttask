@@ -11,8 +11,6 @@
 	<hr>
 	<h2>タスクの編集を適用出来ませんでした。</h2>
 
-	<form action="../menu.jsp" method="POST">
-		<input type="submit" value="メニュー画面へ">
-	</form>
+	<a href="../menu"><button>メニュー画面へ</button></a>
 </body>
 </html>

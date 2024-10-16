@@ -101,6 +101,6 @@ List<TaskListBean> taskList = (List<TaskListBean>) session.getAttribute("taskLis
 	}
 	%>
 
-	<a href="menu.jsp"><button>メニューへ戻る</button></a>
+	<a href="menu"><button>メニューへ戻る</button></a>
 </body>
 </html>

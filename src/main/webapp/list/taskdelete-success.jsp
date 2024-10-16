@@ -12,6 +12,6 @@
 
 	<p>タスクを削除しました。</p>
 
-	<a href = "../menu.jsp"><button>メニュー画面へ</button></a>
+	<a href="../menu"><button>メニュー画面へ</button></a>
 </body>
 </html>

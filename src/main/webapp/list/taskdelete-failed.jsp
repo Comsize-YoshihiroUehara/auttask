@@ -12,6 +12,6 @@
 	<hr>
 	<h2>タスクの削除に失敗しました。</h2>
 
-	<a href="../menu.jsp"><button>メニュー画面へ</button></a>
+	<a href="../menu"><button>メニュー画面へ</button></a>
 </body>
 </html>

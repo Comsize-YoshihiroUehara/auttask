@@ -11,8 +11,6 @@
 	<hr>
 	<h2>タスクの登録に失敗しました。</h2>
 
-	<form action="menu.jsp" method="POST">
-		<input type="submit" value="メニュー画面へ">
-	</form>
+	<a href="menu"><button>メニュー画面へ</button></a>
 </body>
 </html>
