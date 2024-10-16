@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="java.util.List, model.entity.CategoryBean, model.entity.TaskBean, model.entity.StatusBean, model.entity.UserBean"%>
+	pageEncoding="UTF-8" import="java.util.List,java.util.ArrayList, model.entity.CategoryBean, model.entity.TaskBean, model.entity.StatusBean, model.entity.UserBean"%>
 	<%
 	List<CategoryBean> categoryList = (List<CategoryBean>) session.getAttribute("categoryList");
 	List<UserBean> userList = (List<UserBean>) session.getAttribute("userList");
 	List<StatusBean> statusList = (List<StatusBean>) session.getAttribute("statusList");
+	List<String> errorMsg = (List<String>)session.getAttribute("errorMsg");
 	%>
 <!DOCTYPE html>
 <html>
@@ -13,6 +14,17 @@
 </head>
 <body>
 	<h1>タスク登録画面</h1>
+	<hr>
+	<%-- エラーメッセージを表示 --%>
+	<% 
+	if(errorMsg != null){
+		for(String message : errorMsg){ %>
+		<h4><%=message%></h4>
+	<%
+		}
+	}
+	session.removeAttribute("errorMsg");
+	%>
 
 	<form action="taskregister" method="POST">
 

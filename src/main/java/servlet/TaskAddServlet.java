@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -71,26 +72,42 @@ public class TaskAddServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		int rowsAffected = -1;
-
-		request.setCharacterEncoding("UTF-8");
-
-		// htmlのdateからリクエストを受け取ってTaskBeanの「期限」にセットする方法
-		// 補足資料の「日付と時刻の形式」を参照すること
-		// java側でDateクラスで扱うのはいろいろと問題があるのでLocalDateクラスを使う
-		// LocalDateクラスはsql.dateに変換することができる
-
-		//タスク期限の妥当性チェック
 		Date limitDate = null;
-		String limitDateString = request.getParameter("limit_date");
+		String url;
 
-		if (limitDateString != null && !limitDateString.isEmpty()) {
-			if (TaskUtils.isValidDate(Date.valueOf(limitDateString))) {
-				limitDate = Date.valueOf(limitDateString);
-			}
+		HttpSession session = request.getSession();
+
+		//リクエスト処理
+		request.setCharacterEncoding("UTF-8");
+		String taskName = (String) request.getParameter("task_name");
+		String limitDateString = (String) request.getParameter("limit_date");
+		String memo = (String) request.getParameter("memo");
+
+		//フォーム入力内容のバリデーション
+		List<String> errorMsg = new ArrayList<>();
+		if (TaskUtils.isValidTaskName(taskName) != null) {
+			errorMsg.add(TaskUtils.isValidTaskName(taskName));
+		}
+		if (TaskUtils.isValidMemo(memo) != null) {
+			errorMsg.add(TaskUtils.isValidMemo(memo));
+		}
+		if (TaskUtils.isValidDate(limitDateString) != null) {
+			errorMsg.add(TaskUtils.isValidDate(limitDateString));
+		} else if (!limitDateString.isEmpty()) {
+			limitDate = Date.valueOf(limitDateString);
+		}
+
+		if (errorMsg.size() > 0) {
+			session.setAttribute("errorMsg", errorMsg);
+
+			url = "taskregister";
+			response.setCharacterEncoding("UTF-8");
+			response.sendRedirect(url);
+			return;
 		}
 
 		//データベース登録の処理
+		int rowsAffected = -1;
 		TaskRegisterDAO dao = new TaskRegisterDAO();
 		try {
 			//タスク登録用のデータをセット
@@ -112,10 +129,11 @@ public class TaskAddServlet extends HttpServlet {
 		}
 
 		//遷移先の分岐
-		String url = "register-failure.jsp";
 		if (rowsAffected > 0) {
 			//登録成功時
 			url = "register-success.jsp";
+		} else {
+			url = "register-failure.jsp";
 		}
 
 		//フォワード
