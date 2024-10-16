@@ -132,8 +132,8 @@ VALUES ('タスク2',	1,			 null,		 	'admin',	00,			 'テスト');
 
 INSERT INTO task_db.t_task(
 		task_name, 	category_id, limit_date, 	user_id, 	status_code, memo	 )
-VALUES ('タスク3',	2,			 '2030-01-01', 	'test2',	50,			 null	 );
+VALUES ('タスク3',	2,			 '2030-01-01', 	'test2',	50,			 ''	 	 );
 
 INSERT INTO task_db.t_task(
 		task_name, 	category_id, limit_date, 	user_id, 	status_code, memo	 )
-VALUES ('タスク4',	3,			 null,			'test2',	99,			 null	 );
+VALUES ('タスク4',	3,			 null,			'test2',	99,			 ''	 	 );
