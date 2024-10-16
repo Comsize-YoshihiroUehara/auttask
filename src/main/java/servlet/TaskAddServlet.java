@@ -46,9 +46,11 @@ public class TaskAddServlet extends HttpServlet {
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+			throw new RuntimeException(e);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException(e);
 
 		}
 
@@ -77,20 +79,21 @@ public class TaskAddServlet extends HttpServlet {
 		// 補足資料の「日付と時刻の形式」を参照すること
 		// java側でDateクラスで扱うのはいろいろと問題があるのでLocalDateクラスを使う
 		// LocalDateクラスはsql.dateに変換することができる
+
 		//タスク期限の妥当性チェック
-		Date limitDate;
-		String limitDateString = (String) request.getParameter("limit_date");
-		if (!TaskUtils.isValidDate(Date.valueOf(limitDateString))) {
-			//現状では入力された日付が登録日以前になっている場合、
-			//nullにしてSQLを送信する実装になっています。
-			limitDate = null;
-		} else {
-			limitDate = Date.valueOf(limitDateString);
+		Date limitDate = null;
+		String limitDateString = request.getParameter("limit_date");
+
+		if (limitDateString != null && !limitDateString.isEmpty()) {
+			if (TaskUtils.isValidDate(Date.valueOf(limitDateString))) {
+				limitDate = Date.valueOf(limitDateString);
+			}
 		}
 
+		//データベース登録の処理
 		TaskRegisterDAO dao = new TaskRegisterDAO();
 		try {
-			// タスク登録用のデータをTaskBeanにセットする
+			//タスク登録用のデータをセット
 			TaskBean task = new TaskBean();
 			task.setTaskName(request.getParameter("task_name"));
 			task.setCategoryId(Integer.parseInt(request.getParameter("category_id")));
@@ -99,6 +102,7 @@ public class TaskAddServlet extends HttpServlet {
 			task.setStatusCode(request.getParameter("status_code"));
 			task.setMemo(request.getParameter("memo"));
 
+			//SQL実行
 			rowsAffected = dao.registerTask(task);
 
 		} catch (SQLException | ClassNotFoundException e) {
@@ -107,15 +111,11 @@ public class TaskAddServlet extends HttpServlet {
 
 		}
 
-		String url = null;
+		//遷移先の分岐
+		String url = "register-failure.jsp";
 		if (rowsAffected > 0) {
 			//登録成功時
 			url = "register-success.jsp";
-
-		} else {
-			//登録失敗時
-			url = "register-failure.jsp";
-
 		}
 
 		//フォワード

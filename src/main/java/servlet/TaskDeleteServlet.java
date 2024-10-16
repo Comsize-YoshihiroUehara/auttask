@@ -46,41 +46,36 @@ public class TaskDeleteServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		UserBean userInfo = (UserBean) session.getAttribute("userInfo");
 
-		TaskDeleteDAO dao = new TaskDeleteDAO();
-
-		// ログイン中のユーザIDと担当者情報のユーザIDが一致する場合のみレコードの削除を認める
 		String url = null;
 
+		TaskDeleteDAO dao = new TaskDeleteDAO();
 		try {
 			if (request.getParameterValues("task_id_checkbox") != null) {
 				String[] taskIdsString = request.getParameterValues("task_id_checkbox");// 中身はtask_id
 				int[] taskIdsInt = new int[taskIdsString.length];
-
 				for (int i = 0; i < taskIdsString.length; i++) {
 					taskIdsInt[i] = Integer.parseInt(taskIdsString[i]);// チェックボックスで選んだ行のタスクIDが(0,2,3)などと入っている配列
 				}
 
+				// ログイン中のユーザIDと担当者情報のユーザIDが一致する場合のみレコードの削除を認める
 				// taskIdsIntの数字とタスクIDが一致する行をList<TaskBean>にして持ってくる
 				List<TaskBean> checkedTask = dao.selectTasksByTaskID(taskIdsInt);
 				// その(複数)行についてuserInfoのユーザIDとTaskBean型のgetUserId()で得られるユーザIDが一致するものをリストにする
-				for (int i = 0; i < checkedTask.size(); i++) {
-					TaskBean matchedUserId = checkedTask.get(i);
+				int tasksSelected = checkedTask.size();
+				int tasksDeleted = 0;
+				for (int i = 0; i < tasksSelected; i++) {
+					TaskBean task = checkedTask.get(i - tasksDeleted);
 					// ログインユーザIDと一致しないユーザIDがある行は除外する
-					if(!userInfo.getUserId().equals(matchedUserId.getUserId())) {
-						checkedTask.remove(i);
+					if (!userInfo.getUserId().equals(task.getUserId())) {
+						checkedTask.remove(i - tasksDeleted);
+						tasksDeleted++;
 					}
-					
 				}
-				// この行までで削除すべきタスクだけが残る
-				
 				rowsAffected = dao.deleteTaskByTaskId(checkedTask);
-				
 			}
-
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
-
 		}
 
 		//処理件数が0以上であれば成功画面、0以下であればエラー画面

@@ -12,8 +12,9 @@ import model.entity.TaskBean;
 public class TaskDeleteDAO {
 	
 	// taskIdsInt(配列)内の数字とタスクIDが一致する行を検索してリストで返すメソッド
-	public List<TaskBean> selectTasksByTaskID(int[] taskIds) throws ClassNotFoundException, SQLException {
-		List<TaskBean> checkedTask = new ArrayList<TaskBean>();
+	public List<TaskBean> selectTasksByTaskID(int[] taskIds) 
+			throws ClassNotFoundException, SQLException {
+		List<TaskBean> checkedTask = new ArrayList<>();
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT");
@@ -54,6 +55,10 @@ public class TaskDeleteDAO {
 	// ログインユーザIDと登録ユーザIDが一致するレコードを削除するメソッド
 	public int deleteTaskByTaskId(List<TaskBean> checkedTask)
 			throws ClassNotFoundException, SQLException {
+		if(checkedTask.size() == 0 || checkedTask == null) {
+			return 0;
+		}
+		
 		int rowsAffected = 0;//戻り値用の変数
 
 		/*SQL準備********************************************/
