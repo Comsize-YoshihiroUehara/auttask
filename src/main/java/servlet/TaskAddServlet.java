@@ -71,26 +71,22 @@ public class TaskAddServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		int rowsAffected = -1;
+		Date limitDate;
 
 		request.setCharacterEncoding("UTF-8");
-
-		// htmlのdateからリクエストを受け取ってTaskBeanの「期限」にセットする方法
-		// 補足資料の「日付と時刻の形式」を参照すること
-		// java側でDateクラスで扱うのはいろいろと問題があるのでLocalDateクラスを使う
-		// LocalDateクラスはsql.dateに変換することができる
-
-		//タスク期限の妥当性チェック
-		Date limitDate = null;
 		String limitDateString = request.getParameter("limit_date");
-
-		if (limitDateString != null && !limitDateString.isEmpty()) {
-			if (TaskUtils.isValidDate(Date.valueOf(limitDateString))) {
-				limitDate = Date.valueOf(limitDateString);
-			}
+		
+		//フォーム入力内容のバリデーション
+		if (!TaskUtils.isValidDate(limitDateString)) {
+			//現状では入力された日付が登録日以前になっている場合、
+			//nullにしてSQLを送信する実装になっています。
+			limitDate = null;
+		} else {
+			limitDate = Date.valueOf(limitDateString);
 		}
 
 		//データベース登録の処理
+		int rowsAffected = -1;
 		TaskRegisterDAO dao = new TaskRegisterDAO();
 		try {
 			//タスク登録用のデータをセット

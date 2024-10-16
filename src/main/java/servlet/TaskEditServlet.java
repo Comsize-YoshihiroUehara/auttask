@@ -33,25 +33,30 @@ public class TaskEditServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		/*******************************************************************/
-		//今後ログイン中のユーザごとに表示分けをするなら
-		//セッション内のユーザ情報を判別して処理を分ける必要性がある
-		/*******************************************************************/
+		UserBean userInfo = null;
+		String url = null;
+		List<CategoryBean> categoryList = null;
+		List<UserBean> userList = null;
+		List<StatusBean> statusList = null;
 
 		//リクエストを受信
 		request.setCharacterEncoding("UTF-8");
 		int taskId = Integer.parseInt(request.getParameter("task_id"));
 
-		HttpSession sessionUser = request.getSession();
-		UserBean userInfo = (UserBean) sessionUser.getAttribute("userInfo"); // ログイン中のユーザIDを特定する
+		//ログインチェック
+		HttpSession session = request.getSession();
+		if (session.getAttribute("userInfo") != null) {
+			userInfo = (UserBean) session.getAttribute("userInfo");
+		} else {
+			url = "login";
+			response.setCharacterEncoding("UTF-8");
+			response.sendRedirect(url);
+			session.invalidate();
+			return;
+		}
 
 		TaskEditDAO dao = new TaskEditDAO();
 		TaskEditForm defaultForm = null; //編集フォーム画面のデフォルト入力内容格納用
-
-		List<CategoryBean> categoryList = null;
-		List<UserBean> userList = null;
-		List<StatusBean> statusList = null;
-
 		try {
 			defaultForm = dao.selectTaskByTaskId(taskId);
 			categoryList = dao.selectAllCategory();
@@ -70,12 +75,7 @@ public class TaskEditServlet extends HttpServlet {
 
 		// 編集ボタンを押下したときsessionに格納されているユーザIDと
 		// 編集ボタンのあるレコードのユーザIDが一致すれば編集画面への遷移を認める
-		String url = null;
-
 		if (userInfo.getUserId().equals(defaultForm.getUserId())) {
-
-			//セッションにオブジェクトを設定
-			HttpSession session = request.getSession();
 			session.setAttribute("defaultForm", defaultForm);
 			session.setAttribute("categoryList", categoryList);
 			session.setAttribute("userList", userList);
@@ -98,18 +98,22 @@ public class TaskEditServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String url = null;
+		Date limitDate;
+
 		//リクエスト処理
 		request.setCharacterEncoding("UTF-8");
-
-		//タスク期限の妥当性チェック
-		Date limitDate;
+		String taskName = (String) request.getParameter("task_name");
 		String limitDateString = (String) request.getParameter("limit_date");
-		if (!TaskUtils.isValidDate(Date.valueOf(limitDateString))) {
+		String memo = (String) request.getParameter("memo");
+
+		//フォーム入力内容のバリデーション
+		if (TaskUtils.isValidDate(limitDateString)) {
 			//現状では入力された日付が登録日以前になっている場合、
 			//nullにしてSQLを送信する実装になっています。
-			limitDate = null;
-		} else {
 			limitDate = Date.valueOf(limitDateString);
+		} else {
+			limitDate = null;
 		}
 
 		//UPDATE文を実行
@@ -119,15 +123,14 @@ public class TaskEditServlet extends HttpServlet {
 			TaskEditForm newTask = new TaskEditForm();
 
 			newTask.setTaskId(Integer.parseInt(request.getParameter("task_id")));
-			newTask.setTaskName(request.getParameter("task_name"));
+			newTask.setTaskName(taskName);
 			newTask.setCategoryId(Integer.parseInt(request.getParameter("category_id")));
 			newTask.setLimitDate(limitDate);
 			newTask.setUserId(request.getParameter("user_id"));
 			newTask.setStatusCode(request.getParameter("status_code"));
-			newTask.setMemo(request.getParameter("memo"));
+			newTask.setMemo(memo);
 
 			rowsAffected = dao.updateTask(newTask);
-			System.out.println("a");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
@@ -138,11 +141,11 @@ public class TaskEditServlet extends HttpServlet {
 
 		}
 
-		//遷移先の分岐を設定
-		System.out.println(rowsAffected);
-		String url = "taskedit-failed.jsp";
+		//遷移先の分岐
 		if (rowsAffected > 0) {
 			url = "taskedit-success.jsp";
+		} else {
+			url = "taskedit-failed.jsp";
 		}
 
 		RequestDispatcher rd = request.getRequestDispatcher(url);
