@@ -18,6 +18,7 @@ import model.entity.CategoryBean;
 import model.entity.StatusBean;
 import model.entity.TaskBean;
 import model.entity.UserBean;
+import utils.TaskUtils;
 
 /**
  * Servlet implementation class TaskAddServlet
@@ -25,14 +26,6 @@ import model.entity.UserBean;
 @WebServlet("/taskregister")
 public class TaskAddServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public TaskAddServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -71,34 +64,37 @@ public class TaskAddServlet extends HttpServlet {
 	}
 
 	/**
+	 * 入力されたタスクを登録するサーブレット
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	// 入力されたタスクを登録するサーブレット
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		int rowsAffected = -1;
+
 		request.setCharacterEncoding("UTF-8");
 
-		int rowsAffected = 0;
-		String url = null;
+		// htmlのdateからリクエストを受け取ってTaskBeanの「期限」にセットする方法
+		// 補足資料の「日付と時刻の形式」を参照すること
+		// java側でDateクラスで扱うのはいろいろと問題があるのでLocalDateクラスを使う
+		// LocalDateクラスはsql.dateに変換することができる
+		//タスク期限の妥当性チェック
+		Date limitDate;
+		String limitDateString = (String) request.getParameter("limit_date");
+		if (!TaskUtils.isValidDate(Date.valueOf(limitDateString))) {
+			//現状では入力された日付が登録日以前になっている場合、
+			//nullにしてSQLを送信する実装になっています。
+			limitDate = null;
+		} else {
+			limitDate = Date.valueOf(limitDateString);
+		}
 
 		TaskRegisterDAO dao = new TaskRegisterDAO();
 		try {
-			// htmlのdateからリクエストを受け取ってTaskBeanの「期限」にセットする方法
-			// 補足資料の「日付と時刻の形式」を参照すること
-			// java側でDateクラスで扱うのはいろいろと問題があるのでLocalDateクラスを使う
-			// LocalDateクラスはsql.dateに変換することができる
-			
-			//NOT NULLカラムのnullチェック
-			Date date = null;
-			if (request.getParameter("limit_date").isEmpty() == false) {
-				date = Date.valueOf((String) request.getParameter("limit_date"));
-			}
-		
 			// タスク登録用のデータをTaskBeanにセットする
 			TaskBean task = new TaskBean();
 			task.setTaskName(request.getParameter("task_name"));
 			task.setCategoryId(Integer.parseInt(request.getParameter("category_id")));
-			task.setLimitDate(date);
+			task.setLimitDate(limitDate);
 			task.setUserId(request.getParameter("user_id"));
 			task.setStatusCode(request.getParameter("status_code"));
 			task.setMemo(request.getParameter("memo"));
@@ -111,6 +107,7 @@ public class TaskAddServlet extends HttpServlet {
 
 		}
 
+		String url = null;
 		if (rowsAffected > 0) {
 			//登録成功時
 			url = "register-success.jsp";

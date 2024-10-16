@@ -18,6 +18,7 @@ import model.entity.CategoryBean;
 import model.entity.StatusBean;
 import model.entity.UserBean;
 import model.form.TaskEditForm;
+import utils.TaskUtils;
 
 /**
  * Servlet implementation class TaskEditServlet
@@ -100,18 +101,27 @@ public class TaskEditServlet extends HttpServlet {
 		//リクエスト処理
 		request.setCharacterEncoding("UTF-8");
 
+		//タスク期限の妥当性チェック
+		Date limitDate;
+		String limitDateString = (String) request.getParameter("limit_date");
+		if (!TaskUtils.isValidDate(Date.valueOf(limitDateString))) {
+			//現状では入力された日付が登録日以前になっている場合、
+			//nullにしてSQLを送信する実装になっています。
+			limitDate = null;
+		} else {
+			limitDate = Date.valueOf(limitDateString);
+		}
+
 		//UPDATE文を実行
 		TaskEditDAO dao = new TaskEditDAO();
 		int rowsAffected = -1; /* SQLで取得したレコード数を格納する変数 */
 		try {
 			TaskEditForm newTask = new TaskEditForm();
 
-			Date date = Date.valueOf((String) request.getParameter("limit_date"));
-
 			newTask.setTaskId(Integer.parseInt(request.getParameter("task_id")));
 			newTask.setTaskName(request.getParameter("task_name"));
 			newTask.setCategoryId(Integer.parseInt(request.getParameter("category_id")));
-			newTask.setLimitDate(date);
+			newTask.setLimitDate(limitDate);
 			newTask.setUserId(request.getParameter("user_id"));
 			newTask.setStatusCode(request.getParameter("status_code"));
 			newTask.setMemo(request.getParameter("memo"));
