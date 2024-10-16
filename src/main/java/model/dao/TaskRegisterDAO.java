@@ -17,12 +17,29 @@ import model.entity.UserBean;
 // カテゴリ情報、担当者情報、ステータスコードはt_taskに紐づいている別のマスタから表示しないといけない
 public class TaskRegisterDAO {
 
+	/*
+	 * タスクをデータベースに新規登録するメソッド
+	 * @return INSERTした件数
+	 */
 	public int registerTask(TaskBean task)
 			throws SQLException, ClassNotFoundException {
 		int rowsAffected = 0;
 
-		String sql = "INSERT INTO t_task (task_name, category_id, limit_date, user_id, status_code,"
-				+ " memo) VALUES (?,?,?,?,?,?)";
+		/* SQL作成 ***********************************************/
+		StringBuilder sb = new StringBuilder();
+		sb.append("INSERT INTO");
+		sb.append(" t_task ( ");
+		sb.append("task_name,");
+		sb.append("category_id, ");
+		sb.append("limit_date, ");
+		sb.append("user_id, ");
+		sb.append("status_code, ");
+		sb.append("memo");
+		sb.append(") ");
+		sb.append("VALUES ");
+		sb.append("(?,?,?,?,?,?)");
+		String sql = sb.toString();
+		/*********************************************************/
 
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -41,9 +58,11 @@ public class TaskRegisterDAO {
 	}
 
 	// タスク登録画面でユーザー名をプルダウンから選択できるようにするメソッド
-	public List<UserBean> selectAllUser() throws ClassNotFoundException, SQLException {
+	public List<UserBean> selectAllUser() 
+			throws ClassNotFoundException, SQLException {
 		List<UserBean> userList = null;
-		String sql = "SELECT * FROM m_user";
+		
+		String sql = "SELECT user_id, user_name FROM m_user";
 
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -70,7 +89,8 @@ public class TaskRegisterDAO {
 	public List<CategoryBean> selectAllCategory()
 			throws SQLException, ClassNotFoundException {
 		List<CategoryBean> categoryList = null;
-		String sql = "SELECT * FROM m_category";
+		
+		String sql = "SELECT category_id, category_name, FROM m_category";
 
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
