@@ -17,7 +17,7 @@ List<TaskListBean> taskList = (List<TaskListBean>) session.getAttribute("taskLis
 
 <body>
 	<h1>タスク一覧</h1>
-
+	<a href="menu"><button>メニューへ戻る</button></a>
 	<%-- タスクが登録されている場合の表示 --%>
 	<%
 	if (!taskList.isEmpty()) {
@@ -101,6 +101,6 @@ List<TaskListBean> taskList = (List<TaskListBean>) session.getAttribute("taskLis
 	}
 	%>
 
-	<a href="menu"><button>メニューへ戻る</button></a>
+
 </body>
 </html>
