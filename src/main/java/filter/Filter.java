@@ -1,7 +1,6 @@
 package filter;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.dao.UserDAO;
 import model.entity.UserBean;
 
 /**
@@ -44,21 +42,10 @@ public class Filter extends HttpFilter implements javax.servlet.Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
-		String userId = request.getParameter("user_id");
-		String password = request.getParameter("password");
-		UserDAO dao = new UserDAO();
-		UserBean bean = null;
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		UserBean userInfo = (UserBean) session.getAttribute("userInfo");
 		String url = "list";
 		
-		try {
-			bean = dao.login(userId, password);
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
-
 		if (userInfo != null) {
 			//nullでなければ通常の遷移をする
 			chain.doFilter(request, response);
@@ -68,7 +55,6 @@ public class Filter extends HttpFilter implements javax.servlet.Filter {
 			response.setCharacterEncoding("UTF-8");
 			((HttpServletResponse)response).sendRedirect(url);
 		}
-		
 	}
 
 	/**
