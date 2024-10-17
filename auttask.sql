@@ -123,17 +123,21 @@ VALUES (99, 		 '完了'	  	);
 
 /* テスト用タスクダミーデータ挿入 */
 INSERT INTO task_db.t_task(
-		task_name, 	category_id, limit_date, 	user_id, 	status_code, memo	 )
-VALUES ('タスク1',	1,			 '2030-01-01', 	'admin',	00,			 'テスト');
+		task_name, 	category_id, limit_date, 	user_id, 	status_code,    memo	 )
+VALUES ('タスク1',	 1,			  '2030-01-01',  'admin',	 00,			 'テスト' );
 
 INSERT INTO task_db.t_task(
-		task_name, 	category_id, limit_date, 	user_id, 	status_code, memo	 )
-VALUES ('タスク2',	1,			 null,		 	'admin',	00,			 'テスト');
+		task_name, 	category_id, limit_date, 	user_id, 	status_code,    memo	 )
+VALUES ('タスク2',	 1,			  '2030-01-01',	 'admin',	 00,			 'テスト' );
 
 INSERT INTO task_db.t_task(
-		task_name, 	category_id, limit_date, 	user_id, 	status_code, memo	 )
-VALUES ('タスク3',	2,			 '2030-01-01', 	'test2',	50,			 ''	 	 );
+		task_name, 	category_id, limit_date, 	user_id, 	status_code,    memo	 )
+VALUES ('タスク3',	 1,			  null,		 	 'admin',	 00,			 'テスト' );
 
 INSERT INTO task_db.t_task(
-		task_name, 	category_id, limit_date, 	user_id, 	status_code, memo	 )
-VALUES ('タスク4',	3,			 null,			'test2',	99,			 ''	 	 );
+		task_name, 	category_id, limit_date, 	user_id, 	status_code,    memo	 )
+VALUES ('タスク4',	 2,			  '2030-01-01',  'test2',	 50,			 ''	 	  );
+
+INSERT INTO task_db.t_task(
+		task_name, 	category_id, limit_date, 	user_id, 	status_code,    memo	 )
+VALUES ('タスク5',	 3,			  null,			 'test2',	 99,			 ''	 	  );
