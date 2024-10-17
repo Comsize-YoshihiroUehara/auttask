@@ -41,11 +41,10 @@ public class Filter extends HttpFilter implements javax.servlet.Filter {
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		UserBean userInfo = (UserBean) session.getAttribute("userInfo");
 		String url = "list";
-		
+
 		if (userInfo != null) {
 			//nullでなければ通常の遷移をする
 			chain.doFilter(request, response);
@@ -55,6 +54,7 @@ public class Filter extends HttpFilter implements javax.servlet.Filter {
 			response.setCharacterEncoding("UTF-8");
 			((HttpServletResponse)response).sendRedirect(url);
 		}
+		
 	}
 
 	/**
