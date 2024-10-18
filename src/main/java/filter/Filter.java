@@ -18,7 +18,7 @@ import model.entity.UserBean;
 /**
  * Servlet Filter implementation class Filter
  */
-@WebFilter({ "/menu", "/list/delete","/list","/logout.jsp","/taskregister"})
+@WebFilter({ "/menu", "/list/delete","/list","/logout.jsp","/taskregister","/register-success.jsp","/register-failure.jsp","/error.jsp"})
 public class Filter extends HttpFilter implements javax.servlet.Filter {
 
 	/**
