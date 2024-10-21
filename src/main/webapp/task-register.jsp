@@ -11,6 +11,8 @@
 <head>
 <meta charset="UTF-8">
 <title>タスク登録画面</title>
+<link rel="stylesheet" href="css/bootstrap.css">
+<script src="js/bootstrap.js"></script>
 </head>
 <body>
 	<h1>タスク登録画面</h1>
