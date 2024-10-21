@@ -2,7 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList, java.util.List"%>
 <%@ page import="model.entity.TaskCommentsBean"%>
+<%@ page import="model.entity.TaskListBean"%>
 <% TaskCommentsBean taskDetail = (TaskCommentsBean) session.getAttribute("taskDetail");%>
+<% List<TaskListBean> taskSelected = (List<TaskListBean>) session.getAttribute("taskSelected");%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +17,46 @@
 		<thead>
 			<tr>
 				<th>タスク名</th>
+				<th>カテゴリ</th>
+				<th>期限</th>
+				<th>担当者情報</th>
+				<th>ステータス情報</th>
+				<th>メモ</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<%
+				for (TaskListBean task : taskSelected) {
+				%>	
+					<td><%=task.getTaskName()%></td>
+					<td><%=task.getCategoryName()%></td>
+					<%
+					if (task.getLimitDate() == null) {
+					%>
+					<td>
+						<%-- 期限が設定されていない場合の表示--%>
+					</td>
+					<%
+					} else {
+					%>
+					<td><%=task.getLimitDate()%></td>
+					<%
+					}
+					%>
+					<td><%=task.getUserName()%></td>
+					<td><%=task.getStatusName()%></td>
+					<td><%=task.getMemo()%></td>
+				<%
+				}
+				%>
+			</tr>
+		</tbody>
+	</table>
+	<hr>
+	<table border=1>
+		<thead>
+			<tr>
 				<th>コメント投稿者情報</th>
 				<th>コメント内容</th>
 				<th>コメント投稿日時</th>
@@ -22,7 +64,6 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td><%=taskDetail.getTaskName() %></td>
 				<td><%=taskDetail.getUserName() %></td>
 				<td><%=taskDetail.getComment() %></td>
 				<td><%=taskDetail.getUpdateDateTime() %></td>
