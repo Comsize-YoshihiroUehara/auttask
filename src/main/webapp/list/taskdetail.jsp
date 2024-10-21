@@ -21,28 +21,12 @@
 			</tr>
 		</thead>
 		<tbody>
-			<form>
 			<tr>
-				<td>
-					<%=taskDetail.getTaskName() %>
-				</td>
+				<td><%=taskDetail.getTaskName() %></td>
+				<td><%=taskDetail.getUserName() %></td>
+				<td><%=taskDetail.getComment() %></td>
+				<td><%=taskDetail.getUpdateDateTime() %></td>
 			</tr>
-			<tr>
-				<td>
-					<%=taskDetail.getUserName() %>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<%=taskDetail.getComment() %>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<%=taskDetail.getUpdateDateTime() %>
-				</td>
-			</tr>
-			</form>
 		</tbody>
 	</table>
 </body>

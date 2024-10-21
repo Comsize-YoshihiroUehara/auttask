@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import model.dao.TaskDetailDAO;
+import model.entity.TaskCommentsBean;
 
 /**
  * Servlet implementation class TaskDetailServlet
@@ -32,13 +36,18 @@ public class TaskDetailServlet extends HttpServlet {
 		// リクエストのエンコーディング方式を指定
 		request.setCharacterEncoding("UTF-8");
 		
-		//TaskCommentsDAO dao = new TaskCommentsDAO();
-		//TaskCommentsBean taskDetail = null;
+		TaskDetailDAO dao = new TaskDetailDAO();
+		TaskCommentsBean taskDetail = null;
 		
-		// 選択したタスクのタスクIDを取得
+		// 選択したタスク名のタスクIDを取得する
 		int taskId = Integer.parseInt(request.getParameter("task_id"));
 		
-		//taskDetail = dao.selectTask(taskId);
+		try {
+			// 選択したタスク名のコメント情報を取得する
+			taskDetail = dao.selectTask(taskId);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 		
 		
 		// セッションオブジェクトの取得
@@ -46,7 +55,7 @@ public class TaskDetailServlet extends HttpServlet {
 		// タスクIDをセッションに設定
 		session.setAttribute("task_id", taskId);
 		// 該当するタスクIDの詳細情報をセッションに設定
-		//session.setAttribute("taskDetail", taskDetail);
+		session.setAttribute("taskDetail", taskDetail);
 		// コメント閲覧画面に遷移
 		RequestDispatcher rd = request.getRequestDispatcher("taskdetail.jsp");
 		rd.forward(request, response);
