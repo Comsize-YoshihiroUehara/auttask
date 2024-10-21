@@ -53,7 +53,7 @@ List<TaskListBean> taskList = (List<TaskListBean>) session.getAttribute("taskLis
 						<% } %>
 						value="<%=task.getTaskId()%>">
 					</td>
-					<td><%=task.getTaskName()%></td>
+					<td><a href="TaskDetailServlet?task_id=<%=task.getTaskId()%>"><%=task.getTaskName()%></a></td>
 					<td><%=task.getCategoryName()%></td>
 	
 					<%
