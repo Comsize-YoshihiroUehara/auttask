@@ -2,7 +2,7 @@ package model.entity;
 
 import java.sql.Timestamp;
 
-public class TaskComentsBean {
+public class TaskCommentsBean {
 	
 	private int comentId;
 	private int taskId;
