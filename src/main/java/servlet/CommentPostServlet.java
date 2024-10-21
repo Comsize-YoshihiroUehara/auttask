@@ -1,12 +1,18 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import model.dao.CommentPostDAO;
+import model.entity.TaskCommentsBean;
+import model.entity.UserBean;
 
 /**
  * Servlet implementation class CommentPostServlet
@@ -27,6 +33,8 @@ public class CommentPostServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		response.setCharacterEncoding("UTF-8");
+		response.sendRedirect("list");
 	}
 
 	/**
@@ -35,10 +43,27 @@ public class CommentPostServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		
-		String comment = request.getParameter("comment");
-		
-		
+
+		HttpSession session = request.getSession();
+		UserBean userInfo = (UserBean) session.getAttribute("userInfo");
+		int taskId = Integer.parseInt((String) session.getAttribute("taskId"));
+
+		TaskCommentsBean comment = new TaskCommentsBean();
+		comment.setUserId(userInfo.getUserId());
+		comment.setTaskId(taskId);
+		comment.setComment(request.getParameter("comment"));
+
+		int rowsAffected = 0;
+		CommentPostDAO dao = new CommentPostDAO();
+		try {
+			rowsAffected = dao.insertComment(comment);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+
+		response.setCharacterEncoding("UTF-8");
+		response.sendRedirect("list/detail?task_id=" + taskId);
 	}
 
 }
