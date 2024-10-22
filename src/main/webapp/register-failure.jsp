@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>エラー画面</title>
+<link rel="stylesheet" href="../css/bootstrap.css">
+<script src="../js/bootstrap.js"></script>
 </head>
 <body>
 	<jsp:include page="navbar.jsp">
