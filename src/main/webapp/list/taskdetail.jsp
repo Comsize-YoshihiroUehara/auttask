@@ -4,50 +4,51 @@
 <%@ page import="model.entity.TaskCommentsBean"%>
 <%@ page import="model.entity.TaskListBean"%>
 <% int taskId = (Integer) session.getAttribute("taskId");%>
-<% List<TaskCommentsBean> taskDetail = (List<TaskCommentsBean>) session.getAttribute("taskDetail");%>
-<% List<TaskListBean> taskSelected = (List<TaskListBean>) session.getAttribute("taskSelected");%>
+<% List<TaskCommentsBean> taskComments = (List<TaskCommentsBean>) session.getAttribute("taskComments");%>
+<% TaskListBean task = (TaskListBean) session.getAttribute("taskSelected");%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>コメント閲覧</title>
+<title>タスク詳細</title>
+<link rel="stylesheet" href="../css/bootstrap.css">
+<script src="../js/bootstrap.js"></script>
 </head>
 <body>
-	<h1>コメント閲覧</h1>
+	<jsp:include page="../navbar.jsp">
+    	<jsp:param name="name" value="インクルード" />
+	</jsp:include>
+
+	<h1>タスク詳細</h1>
 	<table border="1">
-		<thead>
 			<tr>
 				<th>タスク名</th>
+				<td><%=task.getTaskName()%></td>
+			</tr>
+			<tr>
 				<th>カテゴリ</th>
+				<td><%=task.getCategoryName()%></td>
+			</tr>
+			<tr>
 				<th>期限</th>
-				<th>担当者情報</th>
-				<th>ステータス情報</th>
-				<th>メモ</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<%
-				for (TaskListBean task : taskSelected) {
-				%>	
-					<td><%=task.getTaskName()%></td>
-					<td><%=task.getCategoryName()%></td>
-					<%if (task.getLimitDate() == null) {%>
+				<%if (task.getLimitDate() == null) {%>
 					<td><%-- 期限が設定されていない場合の表示 --%></td>
-					<%} else {%>
+				<%} else {%>
 					<td><%=task.getLimitDate()%></td>
-					<%}%>
-					<td><%=task.getUserName()%></td>
-					<td><%=task.getStatusName()%></td>
-					<td><%=task.getMemo()%></td>
-				<%
-				}
-				%>
+				<%}%>
 			</tr>
 			<tr>
-				
+				<th>担当者情報</th>
+				<td><%=task.getUserName()%></td>
 			</tr>
-		</tbody>
+			<tr>
+				<th>ステータス情報</th>
+				<td><%=task.getStatusName()%></td>
+			</tr>
+			<tr>
+				<th>メモ</th>
+				<td><%=task.getMemo()%></td>
+			</tr>
 	</table>
 	<br>
 	<form action="../list/detail/post" method="POST">
@@ -58,25 +59,33 @@
 	<br>
 	<hr>
 	<%-- 同じタスクIDに対してコメントは複数投稿できる --%>
-	<%if(taskDetail.isEmpty()) {%>
-		コメントが登録されていません。
-	<%}else{%>
+	<%if(taskComments.isEmpty()) { %>
+		<p>コメントが登録されていません。</p>
+	<%} else { %>
 	<table border=1>
 		<thead>
 			<tr>
 				<th>コメント投稿者情報</th>
 				<th>コメント内容</th>
 				<th>コメント投稿日時</th>
+				<th><%-- 削除ボタン  --%>
 			</tr>
 		</thead>
 		<tbody>
 				<% 
-				for(TaskCommentsBean task: taskDetail){
+				for(TaskCommentsBean comment: taskComments){
 				%>
 				<tr>
-					<td><%=task.getUserName()%></td>
-					<td><%=task.getComment()%></td>
-					<td><%=task.getUpdateDateTime()%></td>
+					<td><%=comment.getUserName()%></td>
+					<td><%=comment.getComment()%></td>
+					<td><%=comment.getUpdateDateTime()%></td>
+					<td>
+						<form action="../list/detail/delete" method="POST">
+							<input type="hidden" name="comment_id" value="<%=comment.getCommentId()%>">
+							<input type="submit" value="削除する">
+						</form>
+						
+					</td>
 				<tr>
 				<%
 				}

@@ -18,13 +18,13 @@
     		</button>
     		<ul class="navbar-nav">
     			<li class="nav-item">
-    				<a class="nav-link" href="taskregister">タスク登録</a>
+    				<a class="nav-link" href="<%=request.getContextPath()%>/taskregister">タスク登録</a>
     			</li>
     			<li class="nav-item">
-    				<a class="nav-link" href="list">タスク一覧</a>
+    				<a class="nav-link" href="<%=request.getContextPath()%>/list">タスク一覧</a>
     			</li>
     			<li class="nav-item">
-    				<a class="nav-link" href="logout.jsp">ログアウト</a>
+    				<a class="nav-link" href="<%=request.getContextPath()%>/logout.jsp">ログアウト</a>
     			</li>
     		</ul>
 		</div>

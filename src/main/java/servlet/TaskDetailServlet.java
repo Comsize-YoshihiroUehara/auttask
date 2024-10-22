@@ -22,47 +22,45 @@ import model.entity.TaskListBean;
 @WebServlet("/list/detail")
 public class TaskDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public TaskDetailServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public TaskDetailServlet() {
+		super();
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// リクエストのエンコーディング方式を指定
 		request.setCharacterEncoding("UTF-8");
-		
-		TaskDetailDAO dao = new TaskDetailDAO();
-		List<TaskListBean> taskSelected = null;
-		List<TaskCommentsBean> taskDetail = null;
-		
+
+		TaskListBean taskSelected = null;
+		List<TaskCommentsBean> taskComments = null;
+
 		// セッションオブジェクトの取得
 		HttpSession session = request.getSession();
-		// 選択したタスク名のタスクIDを取得する
 		int taskId = Integer.parseInt(request.getParameter("task_id"));
-		
+
+		TaskDetailDAO dao = new TaskDetailDAO();
 		try {
 			// 選択したタスク名の一覧情報を取得する
-			taskSelected = dao.selectSingleTask(taskId);
+			taskSelected = dao.selectTaskByTaskId(taskId);
 			// 選択したタスク名のコメント情報を取得する
-			taskDetail = dao.selectTask(taskId);
+			taskComments = dao.selectCommentsByTaskId(taskId);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
-		
-		// タスクIDをセッションに設定
+
+		//セッションに情報を格納
 		session.setAttribute("taskId", taskId);
-		// 該当するタスクIDの一覧情報をセッションに設定
 		session.setAttribute("taskSelected", taskSelected);
-		// 該当するタスクIDのコメント情報をセッションに設定
-		session.setAttribute("taskDetail", taskDetail);
+		session.setAttribute("taskComments", taskComments);
+
 		// コメント閲覧画面に遷移
 		RequestDispatcher rd = request.getRequestDispatcher("taskdetail.jsp");
 		rd.forward(request, response);
@@ -71,8 +69,9 @@ public class TaskDetailServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 	}
 
 }
