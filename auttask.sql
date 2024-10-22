@@ -68,6 +68,23 @@ CREATE TABLE task_db.t_task(
 	FOREIGN KEY(status_code) 	REFERENCES task_db.m_status(status_code)
 );
 
+/* コメントテーブル作成 */
+CREATE TABLE task_db.t_comment(
+	comment_id		INT		PRIMARY KEY
+		NOT NULL
+		AUTO_INCREMENT,
+	task_id		INT
+		NOT NULL,
+	user_id		VARCHAR(24)
+		NOT NULL,
+	comment		VARCHAR(100)
+		NOT NULL,
+	update_datetime TIMESTAMP	DEFAULT current_timestamp
+		on update current_timestamp NOT NULL,
+	##以下外部キー
+	FOREIGN KEY(task_id)	REFERENCES task_db.t_task(task_id),
+	FOREIGN KEY(user_id)	REFERENCES task_db.m_user(user_id)
+);
 
 /* テスト用ユーザマスタデータ挿入 */
 INSERT INTO task_db.m_user (

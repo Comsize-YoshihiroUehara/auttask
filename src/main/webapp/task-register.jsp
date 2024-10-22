@@ -11,10 +11,13 @@
 <head>
 <meta charset="UTF-8">
 <title>タスク登録画面</title>
+<link rel="stylesheet" href="css/bootstrap.css">
+<script src="js/bootstrap.js"></script>
 </head>
 <body>
-	<h1>タスク登録画面</h1>
-	<hr>
+	<div class="container-sm">
+		<h1>タスク登録画面</h1>
+	</div>
 	<%-- エラーメッセージを表示 --%>
 	<% 
 	if(errorMsg != null){
@@ -25,10 +28,9 @@
 	}
 	session.removeAttribute("errorMsg");
 	%>
-
-	<form action="taskregister" method="POST">
-
-		<table border=1>
+	<div class="container-sm">
+		<form action="taskregister" method="POST">
+		<table class="table table-bordered">
 			<tr>
 				<th>タスク名</th>
 				<td><input type="text" name="task_name" size="50" required></td>
@@ -90,10 +92,11 @@
 				<td><input type="text" name="memo" size="100"></td>
 			</tr>
 		</table>
-		<br>
-		<input type="submit" value="登録実行">
-		<input type="reset" value="クリア">
+		<input type="submit" class="btn btn-primary" value="登録実行">
+		<input type="reset" class="btn btn-warning" value="クリア">
 	</form>
+	</div>
+	
 	<br>
 </body>
 </html>

@@ -8,10 +8,12 @@
 <title>ログアウト画面</title>
 </head>
 <body>
-	<h1>ログアウト</h1><br>
+	<div class="container-sm">
+		<h1>ログアウト</h1>
+	</div>
 	
 	<form action="login.jsp">
-		<input type="submit" value="ログイン画面へ">
+		<input class="btn btn-primary" type="submit" value="ログイン画面へ">
 	</form>
 <%
 session.invalidate();
