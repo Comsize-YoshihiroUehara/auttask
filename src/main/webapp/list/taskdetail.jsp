@@ -64,9 +64,21 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td><%=taskDetail.getUserName() %></td>
-				<td><%=taskDetail.getComment() %></td>
-				<td><%=taskDetail.getUpdateDateTime() %></td>
+				<%if(taskDetail.getUserName() == null){%>
+					<td><br></td>
+				<%}else{%>
+					<td><%=taskDetail.getUserName() %></td>
+				<%}%>
+				<%if(taskDetail.getComment() == null){%>
+					<td><br></td>
+				<%}else{%>
+					<td><%=taskDetail.getComment() %></td>
+				<%}%>
+				<%if(taskDetail.getUpdateDateTime() == null){%>
+					<td><br></td>
+				<%}else{%>
+					<td><%=taskDetail.getUpdateDateTime() %></td>
+				<%}%>
 			</tr>
 		</tbody>
 	</table>
