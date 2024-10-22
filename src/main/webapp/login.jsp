@@ -9,6 +9,7 @@
 <script src="js/bootstrap.js"></script>
 </head>
 <body>
+	<jsp:include page="navbar.jsp" />
 	<div class="container-sm"><h1>ログイン画面</h1></div>
 
 	<div class="container-sm">

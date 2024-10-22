@@ -8,6 +8,10 @@
 <link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <body>
+	<jsp:include page="navbar.jsp">
+		<jsp:param name="name" value="インクルード" />
+	</jsp:include>
+	
 	<div class="container-sm">
 		<h1>メニュー画面</h1>
 	</div>
