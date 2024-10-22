@@ -3,6 +3,7 @@
 <%@ page import="java.util.ArrayList, java.util.List"%>
 <%@ page import="model.entity.TaskCommentsBean"%>
 <%@ page import="model.entity.TaskListBean"%>
+<% int taskId = (Integer) session.getAttribute("taskId");%>
 <% List<TaskCommentsBean> taskDetail = (List<TaskCommentsBean>) session.getAttribute("taskDetail");%>
 <% List<TaskListBean> taskSelected = (List<TaskListBean>) session.getAttribute("taskSelected");%>
 <!DOCTYPE html>
@@ -32,7 +33,7 @@
 					<td><%=task.getTaskName()%></td>
 					<td><%=task.getCategoryName()%></td>
 					<%if (task.getLimitDate() == null) {%>
-					<td><%-- 期限が設定されていない場合の表示--%></td>
+					<td><%-- 期限が設定されていない場合の表示 --%></td>
 					<%} else {%>
 					<td><%=task.getLimitDate()%></td>
 					<%}%>
@@ -49,7 +50,7 @@
 		</tbody>
 	</table>
 	<br>
-	<form action="/list/detail/post" method="POST">
+	<form action="../list/detail/post" method="POST">
 		<input type="text" name="comment" size="100" required>
 		<br>
 		<input type="submit" value="コメントを投稿する">
@@ -69,18 +70,18 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
 				<% 
 				for(TaskCommentsBean task: taskDetail){
 				%>
+				<tr>
 					<td><%=task.getUserName()%></td>
 					<td><%=task.getComment()%></td>
 					<td><%=task.getUpdateDateTime()%></td>
+				<tr>
 				<%
 				}
 				%>
 	<%}%>
-			</tr>
 		</tbody>
 	</table>
 </body>

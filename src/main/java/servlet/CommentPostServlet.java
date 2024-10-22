@@ -46,7 +46,7 @@ public class CommentPostServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 		UserBean userInfo = (UserBean) session.getAttribute("userInfo");
-		int taskId = Integer.parseInt((String) session.getAttribute("taskId"));
+		int taskId = (Integer) session.getAttribute("taskId");
 
 		TaskCommentsBean comment = new TaskCommentsBean();
 		comment.setUserId(userInfo.getUserId());
@@ -62,9 +62,9 @@ public class CommentPostServlet extends HttpServlet {
 			throw new RuntimeException(e);
 		}
 		
-		//	コメント投稿後はコメント閲覧画面にもう一度飛ばす
+		//	コメント投稿後はコメント閲覧画面にもう一度飛ばす(サーブレットのマッピングに注意)
 		response.setCharacterEncoding("UTF-8");
-		response.sendRedirect("list/detail?task_id=" + taskId);
+		response.sendRedirect("../detail?task_id=" + taskId);
 	}
 
 }

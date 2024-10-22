@@ -58,7 +58,7 @@ public class TaskDetailServlet extends HttpServlet {
 		}
 		
 		// タスクIDをセッションに設定
-		session.setAttribute("task_id", taskId);
+		session.setAttribute("taskId", taskId);
 		// 該当するタスクIDの一覧情報をセッションに設定
 		session.setAttribute("taskSelected", taskSelected);
 		// 該当するタスクIDのコメント情報をセッションに設定
