@@ -17,12 +17,12 @@
 			<table class="table table-bordered">
 				<tr>
 					<th>ユーザID</th>
-					<td><input type="text" name="user_id">
+					<td><input class="form-control" type="text" name="user_id">
 				</tr>
 
 				<tr>
 					<th>パスワード</th>
-					<td><input type="password" name="password">
+					<td><input class="form-control" type="password" name="password">
 				</tr>
 			</table>
 			<input class="btn btn-primary" type="submit" value="ログイン">
