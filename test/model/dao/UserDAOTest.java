@@ -23,6 +23,7 @@ class UserDAOTest {
 		assertNotNull(loginsuccess);
 
 	}
+	@Test
 	public void ログイン失敗テスト() {
 		UserDAO dao = new UserDAO();
 		UserBean loginfalse = null;
