@@ -7,6 +7,10 @@
 <title>エラー画面</title>
 </head>
 <body>
+	<jsp:include page="navbar.jsp">
+    	<jsp:param name="name" value="インクルード" />
+	</jsp:include>
+	
 	<h1>登録失敗</h1>
 	<hr>
 	<h2>タスクの登録に失敗しました。</h2>
