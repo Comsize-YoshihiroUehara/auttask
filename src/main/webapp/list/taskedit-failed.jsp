@@ -4,13 +4,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>編集失敗画面</title>
+<title>編集失敗</title>
+<link rel="stylesheet" href="../css/bootstrap.css">
+<script src="../js/bootstrap.js"></script>
 </head>
 <body>
-	<h1>編集失敗</h1>
-	<hr>
-	<h2>タスクの編集を適用出来ませんでした。</h2>
-
-	<a href="../menu"><button>メニュー画面へ</button></a>
+	<jsp:include page="../navbar.jsp">
+    	<jsp:param name="name" value="インクルード" />
+	</jsp:include>
+	
+	<div class="container-sm">
+		<h1>編集失敗</h1>
+	</div>
+	
+	<div class="container-sm">
+		<p>タスクの編集を適用出来ませんでした。</p>
+		<a href="../menu" class="btn btn-primary">メニュー画面へ</a>
+	</div>
 </body>
 </html>

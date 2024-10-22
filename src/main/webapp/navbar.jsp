@@ -12,7 +12,7 @@
 
 	<nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="menu">
+			<a class="navbar-brand" href="<%=request.getContextPath()%>/menu">
 				<img src="<%=request.getContextPath()%>/img/auttask.gif" width="30" height="30">
 				auttask
 			</a>
