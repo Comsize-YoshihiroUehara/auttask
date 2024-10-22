@@ -1,0 +1,35 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/bootstrap.css">
+<script src="js/bootstrap.js"></script>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg bg-body-tertiary">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="menu">auttask</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      			<span class="navbar-toggler-icon"></span>
+    		</button>
+    		<ul class="navbar-nav">
+    			<li class="nav-item">
+    				<a class="nav-link" href="taskregister">タスク登録</a>
+    			</li>
+    			<li class="nav-item">
+    				<a class="nav-link" href="list">タスク一覧</a>
+    			</li>
+    			<li class="nav-item">
+    				<a class="nav-link" href="logout.jsp">ログアウト</a>
+    			</li>
+    		</ul>
+		</div>
+		
+	</nav>
+
+</body>
+</html>

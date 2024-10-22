@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <body>
+	<jsp:include page="navbar.jsp" />
+	
 	<div class="container-sm">
 		<h1>メニュー画面</h1>
 	</div>

@@ -10,6 +10,10 @@
 <script src="js/bootstrap.js"></script>
 </head>
 <body>
+	<jsp:include page="navbar.jsp">
+    	<jsp:param name="name" value="インクルード" />
+	</jsp:include>
+	
 	<div class="container-sm">
 		<h1>ログアウト</h1>
 	</div>
