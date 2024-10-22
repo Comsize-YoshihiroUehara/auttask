@@ -13,21 +13,28 @@ List<TaskListBean> taskList = (List<TaskListBean>) session.getAttribute("taskLis
 <head>
 <meta charset="UTF-8">
 <title>タスク一覧表示画面</title>
+<link rel="stylesheet" href="css/bootstrap.css">
+<script src="js/bootstrap.js"></script>
 </head>
 
 <body>
-	<h1>タスク一覧</h1>
-	<a href="menu"><button>メニューへ戻る</button></a>
+	<div class="container-sm"><h1>タスク一覧</h1></div>
+	
 	<%-- タスクが登録されている場合の表示 --%>
 	<%
 	if (!taskList.isEmpty()) {
 	%>
-	<a href="list/delete"><button form="delete">選択した項目を削除</button></a>
-	<table border="1">
+	<div class="container-sm">
+		<a href="menu"><button class="btn btn-primary">メニューへ戻る</button></a>
+		<a href="list/delete"><button form="delete" class="btn btn-danger">選択した項目を削除</button></a>
+	</div>
+	
+	<div class="container-sm">
+	<table class="table table-bordered">
 		<thead>
 			<tr>
 				<th>
-					<%-- チェックボックス --%>
+					<%-- チェックボックス用 --%>
 				</th>
 				<th>タスク名</th>
 				<th>カテゴリ</th>
@@ -36,7 +43,7 @@ List<TaskListBean> taskList = (List<TaskListBean>) session.getAttribute("taskLis
 				<th>ステータス情報</th>
 				<th>メモ</th>
 				<th>
-					<%-- 編集ボタン --%>
+					<%-- 編集ボタン用 --%>
 				</th>
 			</tr>
 		</thead>
@@ -75,13 +82,12 @@ List<TaskListBean> taskList = (List<TaskListBean>) session.getAttribute("taskLis
 					<td><%=task.getMemo()%></td>
 					<td>
 						<%-- 編集ボタン --%> 
-						<a href="list/edit?task_id=<%=task.getTaskId()%>">
-						<button 
-							type="button"
+						<a href="list/edit?task_id=<%=task.getTaskId()%>" role="button"
+							type="button" aria-disabled="disabled" class="btn btn-dark
 						<% if(!userInfo.getUserId().equals(task.getUserId())){%>
 							disabled
-						<% } %>>
-						編集する</button></a>
+						<% } %>">
+						編集する</a>
 					</td>
 				</tr>
 			<%
@@ -91,12 +97,16 @@ List<TaskListBean> taskList = (List<TaskListBean>) session.getAttribute("taskLis
 		</tbody>
 
 	</table>
+	</div>
 
 	<%-- タスクが登録されていない場合の表示 --%>
 	<%
 	} else {
 	%>
 	<p>タスクが登録されていません。</p>
+	<div class="container-sm">
+		<a href="menu"><button class="btn btn-primary">メニューへ戻る</button></a>
+	</div>
 	<%
 	}
 	%>
