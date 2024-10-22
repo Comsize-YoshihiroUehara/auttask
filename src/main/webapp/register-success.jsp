@@ -4,13 +4,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>タスク登録完了画面</title>
+<title>タスク登録完了</title>
+<link rel="stylesheet" href="css/bootstrap.css">
+<script src="js/bootstrap.js"></script>
 </head>
 <body>
-	<h1>タスク登録完了画面</h1>
-	<hr>
-	<h2>タスクの登録が完了しました。</h2>
+	<jsp:include page="navbar.jsp">
+    	<jsp:param name="name" value="インクルード" />
+	</jsp:include>
 	
-	<a href="menu"><button>メニュー画面へ</button></a>
+	<div class="container-sm">
+		<h1>タスク登録完了</h1>
+	</div>
+	<div class="container-sm">
+		<p>タスクの登録が完了しました。</p>
+		<a href="menu" role="button" class="btn btn-primary">メニュー画面へ</a>
+	</div>
 </body>
 </html>

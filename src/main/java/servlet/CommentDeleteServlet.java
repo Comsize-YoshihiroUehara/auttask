@@ -10,21 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.dao.CommentPostDAO;
-import model.entity.TaskCommentsBean;
+import model.dao.CommentDeleteDAO;
 import model.entity.UserBean;
 
 /**
- * Servlet implementation class CommentPostServlet
+ * Servlet implementation class CommentDeleteServlet
  */
-@WebServlet("/list/detail/post")
-public class CommentPostServlet extends HttpServlet {
+@WebServlet("/list/detail/delete")
+public class CommentDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public CommentPostServlet() {
+	public CommentDeleteServlet() {
 		super();
 	}
 
@@ -33,8 +32,7 @@ public class CommentPostServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setCharacterEncoding("UTF-8");
-		response.sendRedirect("list");
+		
 	}
 
 	/**
@@ -42,29 +40,39 @@ public class CommentPostServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+		int rowsAffected = 0;//SQLの処理件数を格納する用
+		String url;
 
+		//リクエストを処理
+		request.setCharacterEncoding("UTF-8");
+		int commentId = Integer.parseInt(request.getParameter("comment_id"));
+
+		//セッションを取得
 		HttpSession session = request.getSession();
 		UserBean userInfo = (UserBean) session.getAttribute("userInfo");
-		int taskId = (Integer) session.getAttribute("taskId");
-
-		TaskCommentsBean comment = new TaskCommentsBean();
-		comment.setUserId(userInfo.getUserId());
-		comment.setTaskId(taskId);
-		comment.setComment(request.getParameter("comment"));
-
-		int rowsAffected = 0;
-		CommentPostDAO dao = new CommentPostDAO();
+		int taskId = (Integer)session.getAttribute("taskId");
+		
+		CommentDeleteDAO dao = new CommentDeleteDAO();
 		try {
-			rowsAffected = dao.insertComment(comment);
-		} catch (ClassNotFoundException | SQLException e) {
+			String userIdOnComment = dao.selectUserIdByCommentId(commentId);
+			
+			if(userIdOnComment.equals(userInfo.getUserId())) {
+				rowsAffected = dao.deleteCommentByCommentId(commentId);
+			}
+		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 		
-		//	コメント投稿後はコメント閲覧画面にもう一度飛ばす(サーブレットのマッピングに注意)
-		response.setCharacterEncoding("UTF-8");
-		response.sendRedirect("../detail?task_id=" + taskId);
+		if(rowsAffected > 0) {
+			url = "../../list/detail?task_id=" + taskId;
+			response.setCharacterEncoding("UTF-8");
+			response.sendRedirect(url);
+		} else {
+			url = "../../list/detail?task_id=" + taskId;
+			response.setCharacterEncoding("UTF-8");
+			response.sendRedirect(url);
+		}
 	}
 
 }

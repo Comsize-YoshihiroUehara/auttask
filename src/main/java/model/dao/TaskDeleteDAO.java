@@ -10,9 +10,9 @@ import java.util.List;
 import model.entity.TaskBean;
 
 public class TaskDeleteDAO {
-	
+
 	// taskIdsInt(配列)内の数字とタスクIDが一致する行を検索してリストで返すメソッド
-	public List<TaskBean> selectTasksByTaskID(int[] taskIds) 
+	public List<TaskBean> selectTasksByTaskID(int[] taskIds)
 			throws ClassNotFoundException, SQLException {
 		List<TaskBean> checkedTask = new ArrayList<>();
 
@@ -51,14 +51,14 @@ public class TaskDeleteDAO {
 		}
 		return checkedTask;
 	}
-	
+
 	// ログインユーザIDと登録ユーザIDが一致するレコードを削除するメソッド
 	public int deleteTaskByTaskId(List<TaskBean> checkedTask)
 			throws ClassNotFoundException, SQLException {
-		if(checkedTask.size() == 0 || checkedTask == null) {
+		if (checkedTask.size() == 0 || checkedTask == null) {
 			return 0;
 		}
-		
+
 		int rowsAffected = 0;//戻り値用の変数
 
 		/*SQL準備********************************************/
@@ -95,6 +95,47 @@ public class TaskDeleteDAO {
 		//削除完了した件数を返す
 		return rowsAffected;
 
+	}
+
+	public int deleteComments(List<TaskBean> checkedTask) 
+			throws ClassNotFoundException, SQLException {
+		if (checkedTask.size() == 0 || checkedTask == null) {
+			return 0;
+		}
+		int rowsAffected = 0;
+
+		/*SQL準備********************************************/
+		StringBuilder sb = new StringBuilder();
+		sb.append("DELETE FROM");
+		sb.append(" t_comment ");
+		sb.append("WHERE task_id ");
+
+		//IN句
+		sb.append("IN(");
+		for (int i = 0; i < checkedTask.size(); i++) {
+			sb.append("?");
+			if (i != (checkedTask.size() - 1)) {
+				sb.append(", ");
+			}
+		}
+		sb.append(")");
+		String sql = sb.toString();
+		/****************************************************/
+
+		//SQL文実行
+		try (Connection con = ConnectionManager.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+			//プレースホルダに値をセット
+			for (int i = 0; i < checkedTask.size(); i++) {
+				TaskBean matchedTask = checkedTask.get(i);
+				pstmt.setInt(i + 1, matchedTask.getTaskId());
+			}
+
+			rowsAffected = pstmt.executeUpdate();
+		}
+
+		return rowsAffected;
 	}
 
 }

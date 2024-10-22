@@ -18,15 +18,21 @@ public class CommentPostDAO {
 		StringBuilder sb = new StringBuilder();
 		sb.append("INSERT INTO");
 		sb.append(" t_comment (");
-		sb.append("");
-		sb.append("");
-		sb.append("");
-		sb.append("");
+		sb.append(" task_id,");
+		sb.append(" user_id,");
+		sb.append(" comment)");
+		sb.append(" VALUES");
+		sb.append(" (?,?,?)");
 		String sql = sb.toString();
 
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
-
+			
+			pstmt.setInt(1, comment.getTaskId());
+			pstmt.setString(2, comment.getUserId());
+			pstmt.setString(3, comment.getComment());
+			
+			rowsAffected = pstmt.executeUpdate();
 		}
 		return rowsAffected;
 	}
