@@ -2,6 +2,7 @@ package model.dao;
 
 import static org.junit.Assert.*;
 
+import java.sql.Date;
 import java.sql.SQLException;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -12,11 +13,13 @@ import model.form.TaskEditForm;
 public class TaskEditDAOTest {
 	private TaskEditDAO taskEditDAO;
 	private TaskEditForm taskEditForm;
+	private int rowsAffected;
 
 	@BeforeEach
 	void setUp_テスト準備() {
 		taskEditDAO = new TaskEditDAO();
 		taskEditForm = null;
+		
 	}
 
 	@Test
@@ -43,5 +46,29 @@ public class TaskEditDAOTest {
 		
 		assertNotNull(taskEditForm);
 		assertEquals(0, taskEditForm.getTaskId());
+	}
+	
+	@Test
+	void test3_タスク追加成功テスト() {
+		java.sql.Date date = Date.valueOf("2030-01-22");
+		
+		rowsAffected = 0;
+		
+		taskEditForm = new TaskEditForm();
+		taskEditForm.setTaskId(1);
+		taskEditForm.setTaskName("タスク1_テスト");
+		taskEditForm.setCategoryId(2);
+		taskEditForm.setLimitDate(date);
+		taskEditForm.setUserId("admin");
+		taskEditForm.setStatusCode("0");
+		taskEditForm.setMemo(null);
+		
+		try {
+			rowsAffected = taskEditDAO.updateTask(taskEditForm);
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		assertEquals(1, rowsAffected);
 	}
 }

@@ -97,7 +97,7 @@ public class TaskEditDAO {
 		sb.append(" status_code = ?,");
 		//以下2つNOT NULLではないカラム
 		sb.append(" limit_date = ?,");
-		sb.append(" memo = ?");
+		sb.append(" memo = ? ");
 		//WHERE句でタスクIDを指定
 		sb.append("WHERE");
 		sb.append(" task_id = ?");
@@ -119,6 +119,7 @@ public class TaskEditDAO {
 			pstmt.setInt(7, newTask.getTaskId());//task_id
 
 			//SQL実行
+			System.out.println(pstmt.toString());
 			rowsAffected = pstmt.executeUpdate();
 		}
 		return rowsAffected;
