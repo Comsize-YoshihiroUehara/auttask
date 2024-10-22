@@ -61,7 +61,8 @@ public class CommentPostServlet extends HttpServlet {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
-
+		
+		//	コメント投稿後はコメント閲覧画面にもう一度飛ばす
 		response.setCharacterEncoding("UTF-8");
 		response.sendRedirect("list/detail?task_id=" + taskId);
 	}

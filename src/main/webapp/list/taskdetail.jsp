@@ -3,7 +3,7 @@
 <%@ page import="java.util.ArrayList, java.util.List"%>
 <%@ page import="model.entity.TaskCommentsBean"%>
 <%@ page import="model.entity.TaskListBean"%>
-<% TaskCommentsBean taskDetail = (TaskCommentsBean) session.getAttribute("taskDetail");%>
+<% List<TaskCommentsBean> taskDetail = (List<TaskCommentsBean>) session.getAttribute("taskDetail");%>
 <% List<TaskListBean> taskSelected = (List<TaskListBean>) session.getAttribute("taskSelected");%>
 <!DOCTYPE html>
 <html>
@@ -31,19 +31,11 @@
 				%>	
 					<td><%=task.getTaskName()%></td>
 					<td><%=task.getCategoryName()%></td>
-					<%
-					if (task.getLimitDate() == null) {
-					%>
-					<td>
-						<%-- 期限が設定されていない場合の表示--%>
-					</td>
-					<%
-					} else {
-					%>
+					<%if (task.getLimitDate() == null) {%>
+					<td><%-- 期限が設定されていない場合の表示--%></td>
+					<%} else {%>
 					<td><%=task.getLimitDate()%></td>
-					<%
-					}
-					%>
+					<%}%>
 					<td><%=task.getUserName()%></td>
 					<td><%=task.getStatusName()%></td>
 					<td><%=task.getMemo()%></td>
@@ -51,9 +43,23 @@
 				}
 				%>
 			</tr>
+			<tr>
+				
+			</tr>
 		</tbody>
 	</table>
+	<br>
+	<form action="/list/detail/post" method="POST">
+		<input type="text" name="comment" size="100" required>
+		<br>
+		<input type="submit" value="コメントを投稿する">
+	</form>
+	<br>
 	<hr>
+	<%-- 同じタスクIDに対してコメントは複数投稿できる --%>
+	<%if(taskDetail.isEmpty()) {%>
+		コメントが登録されていません。
+	<%}else{%>
 	<table border=1>
 		<thead>
 			<tr>
@@ -64,21 +70,16 @@
 		</thead>
 		<tbody>
 			<tr>
-				<%if(taskDetail.getUserName() == null){%>
-					<td><br></td>
-				<%}else{%>
-					<td><%=taskDetail.getUserName() %></td>
-				<%}%>
-				<%if(taskDetail.getComment() == null){%>
-					<td><br></td>
-				<%}else{%>
-					<td><%=taskDetail.getComment() %></td>
-				<%}%>
-				<%if(taskDetail.getUpdateDateTime() == null){%>
-					<td><br></td>
-				<%}else{%>
-					<td><%=taskDetail.getUpdateDateTime() %></td>
-				<%}%>
+				<% 
+				for(TaskCommentsBean task: taskDetail){
+				%>
+					<td><%=task.getUserName()%></td>
+					<td><%=task.getComment()%></td>
+					<td><%=task.getUpdateDateTime()%></td>
+				<%
+				}
+				%>
+	<%}%>
 			</tr>
 		</tbody>
 	</table>

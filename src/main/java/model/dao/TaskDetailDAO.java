@@ -82,7 +82,7 @@ public class TaskDetailDAO {
 	}
 	
 	// タスク名をクリックしたときに表示するコメント情報を検索するメソッド
-	public TaskCommentsBean selectTask(int taskId) throws SQLException, ClassNotFoundException {
+	public List<TaskCommentsBean> selectTask(int taskId) throws SQLException, ClassNotFoundException {
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT");
 		sb.append(" t1.comment_id,");
@@ -101,7 +101,7 @@ public class TaskDetailDAO {
 		sb.append(" t1.task_id = ?");
 		String sql = sb.toString();
 		
-		TaskCommentsBean taskDetail = new TaskCommentsBean();
+		List<TaskCommentsBean> taskDetail = null;
 
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql);) {
@@ -111,14 +111,19 @@ public class TaskDetailDAO {
 			// SQLステートメントの実行
 			ResultSet res = pstmt.executeQuery();
 
+			taskDetail = new ArrayList<>();
 			while (res.next()) {
-				taskDetail.setCommentId(res.getInt("comment_id"));
-				taskDetail.setTaskId(res.getInt("task_id"));
-				taskDetail.setTaskName(res.getString("task_name"));
-				taskDetail.setUserId(res.getString("user_id"));
-				taskDetail.setUserName(res.getString("user_name"));
-				taskDetail.setComment(res.getString("comment"));
-				taskDetail.setUpdateDateTime(res.getTimestamp("update_datetime"));
+				TaskCommentsBean bean = new TaskCommentsBean();
+				
+				bean.setCommentId(res.getInt("comment_id"));
+				bean.setTaskId(res.getInt("task_id"));
+				bean.setTaskName(res.getString("task_name"));
+				bean.setUserId(res.getString("user_id"));
+				bean.setUserName(res.getString("user_name"));
+				bean.setComment(res.getString("comment"));
+				bean.setUpdateDateTime(res.getTimestamp("update_datetime"));
+				
+				taskDetail.add(bean);
 			}
 		}
 		return taskDetail;

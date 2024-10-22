@@ -40,7 +40,7 @@ public class TaskDetailServlet extends HttpServlet {
 		
 		TaskDetailDAO dao = new TaskDetailDAO();
 		List<TaskListBean> taskSelected = null;
-		TaskCommentsBean taskDetail = null;
+		List<TaskCommentsBean> taskDetail = null;
 		
 		// セッションオブジェクトの取得
 		HttpSession session = request.getSession();
