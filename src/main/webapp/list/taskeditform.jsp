@@ -18,35 +18,44 @@
 <head>
 <meta charset="UTF-8">
 <title><%=title%></title>
+<link rel="stylesheet" href="../css/bootstrap.css">
+<script src="../js/bootstrap.js"></script>
 </head>
 <body>
-	<h1><%=title%></h1>
-
-	<%-- エラーメッセージを表示 --%>
-	<% 
-	if(errorMsg != null){
-		for(String message : errorMsg){ %>
-		<h4><%=message%></h4>
-	<%
+	<jsp:include page="../navbar.jsp">
+    	<jsp:param name="name" value="インクルード" />
+	</jsp:include>
+	<div class="container-sm">
+		<h1><%=title%></h1>
+		<%-- エラーメッセージを表示 --%>
+		<% 
+		if(errorMsg != null){
+			for(String message : errorMsg){ %>
+			<div class="container-sm">
+				<p class="fst-italic text-danger"><%=message%></p>
+			</div>
+		<%  }
+			session.removeAttribute("errorMsg");
 		}
-	}
-	session.removeAttribute("errorMsg");
-	%>
-	
+		%>
+	</div>
+
+	<div class="container-sm">
 	<%-- 入力フォーム --%>
-	<form action="edit" method="POST">
-		<table border=1>
+	<form class="form" action="edit" method="POST">
+		<table class="table table-bordered">
 			<tr>
 				<th>タスク名</th>
 				<td>
 					<%-- タスクIDをhidden属性で付与 --%>
 					<input type="hidden" name="task_id" value="<%=defaultForm.getTaskId()%>">
-					<input type="text" name="task_name" size="50" required value="<%=defaultForm.getTaskName()%>">
+					<input type="text" name="task_name" aria-describedby="task_nameHelp" class="form-control" size="50" required value="<%=defaultForm.getTaskName()%>">
+					<div id="task_nameHelp" class="form-text">50字以内で入力してください。</div>
 				</td>
 			</tr>
 			<tr>
 				<th>カテゴリ情報</th>
-				<td><select name="category_id">
+				<td><select class="form-select" name="category_id">
 						<%
 						for (CategoryBean category : categoryList) {
 						%>
@@ -60,11 +69,11 @@
 			</tr>
 			<tr>
 				<th>期限</th>
-				<td><input type="date" name="limit_date" value="<%=defaultForm.getLimitDate()%>"></td>
+				<td><input class="form-control" type="date" name="limit_date" value="<%=defaultForm.getLimitDate()%>"></td>
 			</tr>
 			<tr>
 				<th>担当者情報</th>
-				<td><select name="user_id">
+				<td><select class="form-select" name="user_id">
 						<%
 						for (UserBean user : userList) {
 						%>
@@ -78,7 +87,7 @@
 			</tr>
 			<tr>
 				<th>ステータス情報</th>
-				<td><select name="status_code">
+				<td><select class="form-select" name="status_code">
 						<%
 						for (StatusBean status : statusList) {
 						%>
@@ -92,13 +101,12 @@
 			</tr>
 			<tr>
 				<th>メモ</th>
-				<td><input type="text" name="memo" size="100" value="<%=defaultForm.getMemo()%>"></td>
+				<td><input type="text" class="form-control" name="memo" size="100" value="<%=defaultForm.getMemo()%>"></td>
 			</tr>
 		</table>
-		<br>
-		<input type="submit" value="編集適用">
-		<input type="reset" value="クリア">
+		<input type="submit" class="btn btn-primary" value="編集適用">
+		<input type="reset" class="btn btn-warning" value="クリア">
 	</form>
-	<br>
+	</div>
 </body>
 </html>

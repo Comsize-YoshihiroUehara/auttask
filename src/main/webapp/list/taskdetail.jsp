@@ -59,8 +59,7 @@
 	<div class="container-sm">
 		<form class="form" action="../list/detail/post" method="POST">
 			<input class="form-control" type="text" name="comment" size="100" required>
-			<br>
-			<input type="submit" value="コメントを投稿する">
+			<input type="submit" class="btn btn-primary" value="コメントを投稿する">
 		</form>
 	</div>
 	
@@ -94,9 +93,8 @@
 							<td>
 								<form action="../list/detail/delete" method="POST">
 									<input type="hidden" name="comment_id" value="<%=comment.getCommentId()%>">
-									<input type="submit" value="削除する">
+									<input class="btn btn-danger" type="submit" value="削除する">
 								</form>
-								
 							</td>
 						<tr>
 						<%
