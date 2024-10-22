@@ -58,19 +58,19 @@ public class TaskDeleteServlet extends HttpServlet {
 				}
 
 				// ログイン中のユーザIDと担当者情報のユーザIDが一致する場合のみレコードの削除を認める
-				// taskIdsIntの数字とタスクIDが一致する行をList<TaskBean>にして持ってくる
 				List<TaskBean> checkedTask = dao.selectTasksByTaskID(taskIdsInt);
 				// その(複数)行についてuserInfoのユーザIDとTaskBean型のgetUserId()で得られるユーザIDが一致するものをリストにする
 				int tasksSelected = checkedTask.size();
-				int tasksDeleted = 0;
+				int tasksRemoved = 0;
 				for (int i = 0; i < tasksSelected; i++) {
-					TaskBean task = checkedTask.get(i - tasksDeleted);
+					TaskBean tempTask = checkedTask.get(i - tasksRemoved);
 					// ログインユーザIDと一致しないユーザIDがある行は除外する
-					if (!userInfo.getUserId().equals(task.getUserId())) {
-						checkedTask.remove(i - tasksDeleted);
-						tasksDeleted++;
+					if (!userInfo.getUserId().equals(tempTask.getUserId())) {
+						checkedTask.remove(i - tasksRemoved);
+						tasksRemoved++;
 					}
 				}
+				dao.deleteComments(checkedTask);
 				rowsAffected = dao.deleteTaskByTaskId(checkedTask);
 			}
 		} catch (SQLException | ClassNotFoundException e) {
