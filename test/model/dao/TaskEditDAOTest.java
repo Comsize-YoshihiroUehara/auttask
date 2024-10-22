@@ -20,7 +20,7 @@ public class TaskEditDAOTest {
 	}
 
 	@Test
-	public void test1_タスク取得テスト() {
+	 void test1_タスク取得成功テスト() {
 		int taskId = 1;
 		try {
 			taskEditForm = taskEditDAO.selectTaskByTaskId(taskId);
@@ -30,5 +30,18 @@ public class TaskEditDAOTest {
 		
 		assertNotNull(taskEditForm);
 		assertEquals(1, taskEditForm.getTaskId());
+	}
+	
+	@Test
+	void test2_タスク取得失敗テスト() {
+		int taskId = 0;
+		try {
+			taskEditForm = taskEditDAO.selectTaskByTaskId(taskId);
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		assertNotNull(taskEditForm);
+		assertEquals(0, taskEditForm.getTaskId());
 	}
 }
