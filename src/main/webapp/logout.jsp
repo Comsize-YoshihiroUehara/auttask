@@ -6,15 +6,17 @@
 <head>
 <meta charset="UTF-8">
 <title>ログアウト画面</title>
+<link rel="stylesheet" href="css/bootstrap.css">
+<script src="js/bootstrap.js"></script>
 </head>
 <body>
 	<div class="container-sm">
 		<h1>ログアウト</h1>
 	</div>
 	
-	<form action="login.jsp">
-		<input class="btn btn-primary" type="submit" value="ログイン画面へ">
-	</form>
+	<div class="container-sm">
+		<a href="login.jsp" role="button" class="btn btn-primary" type="submit">ログイン画面へ</a>
+	</div>
 <%
 session.invalidate();
 %>
