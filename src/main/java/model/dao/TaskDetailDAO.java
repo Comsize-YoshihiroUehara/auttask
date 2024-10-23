@@ -73,7 +73,6 @@ public class TaskDetailDAO {
 				taskSelected.setCreateDateTime(rs.getTimestamp("create_datetime"));
 				taskSelected.setUpdateTime(rs.getTimestamp("update_datetime"));
 				
-				return taskSelected;
 			}
 		}
 		return taskSelected;
