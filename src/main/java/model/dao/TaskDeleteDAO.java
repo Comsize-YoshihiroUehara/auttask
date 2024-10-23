@@ -44,8 +44,10 @@ public class TaskDeleteDAO {
 
 			while (rs.next()) {
 				TaskBean task = new TaskBean();
+
 				task.setTaskId(rs.getInt("task_id"));
 				task.setUserId(rs.getString("user_id"));
+
 				checkedTask.add(task);
 			}
 		}
@@ -97,7 +99,7 @@ public class TaskDeleteDAO {
 
 	}
 
-	public int deleteComments(List<TaskBean> checkedTask) 
+	public int deleteComments(List<TaskBean> checkedTask)
 			throws ClassNotFoundException, SQLException {
 		if (checkedTask.size() == 0 || checkedTask == null) {
 			return 0;

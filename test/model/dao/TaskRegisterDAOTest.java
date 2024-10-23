@@ -142,8 +142,15 @@ class TaskRegisterDAOTest {
 	}
 
 	@Test
-	public void カテゴリーリスト取得テスト() {
+	public void カテゴリーリスト取得テスト() throws SQLException {
 
+		
+		when(con.prepareStatement(anyString())).thenReturn(pstmt);
+		when(pstmt.executeQuery()).thenReturn(rs);
+		when(rs.next()).thenReturn(true).thenReturn(false);
+		when(rs.getInt("CategoryId")).thenReturn(0);
+		when(rs.getString("CategoryName")).thenReturn("");
+		
 		try {
 			categoryList = taskregisterdao.selectAllCategory();
 		} catch (ClassNotFoundException | SQLException e) {
@@ -151,17 +158,38 @@ class TaskRegisterDAOTest {
 			e.printStackTrace();
 		}
 		assertNotNull(categoryList);
+		assertEquals(0,categoryList.get(0).getCategoryId());
+		
+		verify(pstmt,times(1)).executeQuery();
 	}
 
 	@Test
-	public void ステータスリスト取得テスト() {
+	public void ステータスリスト取得テスト() throws SQLException {
 
-		try {
-			statusList = taskregisterdao.selectAllStatus();
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
-		assertNotNull(statusList);
+		
+		when(con.prepareStatement(anyString())).thenReturn(pstmt);
+		when(pstmt.executeQuery()).thenReturn(rs);
+		when(rs.next()).thenReturn(true).thenReturn(false);
+		when(rs.getString("status_code")).thenReturn("");
+		when(rs.getString("status_name")).thenReturn("");
+		
+
+	    try {
+	        statusList = taskregisterdao.selectAllStatus();
+	    } catch (ClassNotFoundException | SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    // リストがnullでないことを確認
+	    assertNotNull(statusList);
+	    
+	   
+	    
+	    // 要素の内容を確認
+	    assertEquals("", statusList.get(0).getStatusCode());
+	    assertEquals("", statusList.get(0).getStatusName());
+
+	    // executeQueryが1回だけ呼ばれていることを確認
+	    verify(pstmt, times(1)).executeQuery();
 	}
 }
