@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CommentDeleteDAO {
+	
 	public String selectUserIdByCommentId(int commentId) 
 			throws ClassNotFoundException, SQLException {
 		String userId = null;
