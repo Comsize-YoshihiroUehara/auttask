@@ -1,6 +1,8 @@
 package model.dao;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -46,8 +48,8 @@ class TaskRegisterDAOTest {
 		when(ConnectionManager.getConnection()).thenReturn(con);
 	}
 
-	private TaskBean bean;
-	private UserBean user;
+	private TaskBean taskbean;
+	private UserBean userbean;
 	private CategoryBean category;
 	private StatusBean status;
 	private List<UserBean> userList;
@@ -57,21 +59,20 @@ class TaskRegisterDAOTest {
 	@Test
 	public void 登録成功テスト() throws SQLException {
 		int rowsAffected = 0;
-		bean = new TaskBean();
+		taskbean = new TaskBean();
 
-		bean.setTaskName("タスク１");
-		bean.setCategoryId(1);
-		bean.setLimitDate(null);
-		bean.setUserId("test2");
-		bean.setStatusCode("50");
-		bean.setMemo("未着手");
-		
+		taskbean.setTaskName("タスク１");
+		taskbean.setCategoryId(1);
+		taskbean.setLimitDate(null);
+		taskbean.setUserId("test2");
+		taskbean.setStatusCode("50");
+		taskbean.setMemo("未着手");
 
 		when(con.prepareStatement(anyString())).thenReturn(pstmt);
 		when(pstmt.executeUpdate()).thenReturn(1);
 
 		try {
-			rowsAffected = taskregisterdao.registerTask(bean);
+			rowsAffected = taskregisterdao.registerTask(taskbean);
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
@@ -79,30 +80,55 @@ class TaskRegisterDAOTest {
 
 		assertEquals(1, rowsAffected);
 
-		verify(pstmt, times(1)).setString(1, bean.getTaskName());
-		verify(pstmt, times(1)).setInt(2, bean.getCategoryId());
-		verify(pstmt, times(1)).setDate(3, bean.getLimitDate());
-		verify(pstmt, times(1)).setString(4, bean.getUserId());
-		verify(pstmt, times(1)).setString(5, bean.getStatusCode());
-		verify(pstmt, times(1)).setString(6, bean.getMemo());
+		verify(pstmt, times(1)).setString(1, taskbean.getTaskName());
+		verify(pstmt, times(1)).setInt(2, taskbean.getCategoryId());
+		verify(pstmt, times(1)).setDate(3, taskbean.getLimitDate());
+		verify(pstmt, times(1)).setString(4, taskbean.getUserId());
+		verify(pstmt, times(1)).setString(5, taskbean.getStatusCode());
+		verify(pstmt, times(1)).setString(6, taskbean.getMemo());
+		verify(pstmt, times(1)).executeUpdate();
 	}
 
 	@Test
-	public void 登録失敗例外テスト() {
-		bean.setTaskName("タスク１");
-		bean.setCategoryId(1);
-		bean.setUserId("test3");
-		bean.setStatusCode("50");
-		bean.setMemo("未着手");
+	public void 登録失敗例外テスト() throws SQLException {
+
+		taskbean = new TaskBean();
+
+		taskbean.setTaskName("タスク１");
+		taskbean.setCategoryId(1);
+		taskbean.setUserId("test3");
+		taskbean.setStatusCode("50");
+		taskbean.setMemo("未着手");
+
+		when(con.prepareStatement(anyString())).thenReturn(pstmt);
+		// pstmt.executeUpdate()がSQLExceptionをスローするように設定
+		when(pstmt.executeUpdate()).thenThrow(new SQLException("SQLエラーが発生しました"));
+
 		// ClassNotFoundExceptionやSQLExceptionが発生することを確認する
 		assertThrows(SQLException.class, () -> {
-			taskregisterdao.registerTask(bean);
+			taskregisterdao.registerTask(taskbean);
 		});
+
+		verify(pstmt, times(1)).setString(1, taskbean.getTaskName());
+		verify(pstmt, times(1)).setInt(2, taskbean.getCategoryId());
+		verify(pstmt, times(1)).setDate(3, taskbean.getLimitDate());
+		verify(pstmt, times(1)).setString(4, taskbean.getUserId());
+		verify(pstmt, times(1)).setString(5, taskbean.getStatusCode());
+		verify(pstmt, times(1)).setString(6, taskbean.getMemo());
+		verify(pstmt, times(1)).executeUpdate();
 	}
 
 	@Test
-	public void ユーザーリスト取得テスト() {
+	public void ユーザーリスト取得テスト() throws SQLException {
 
+		
+		when(con.prepareStatement(anyString())).thenReturn(pstmt);
+		when(pstmt.executeQuery()).thenReturn(rs);
+		when(rs.next()).thenReturn(true).thenReturn(false);
+		when(rs.getString("user_id")).thenReturn("");
+		when(rs.getString("user_name")).thenReturn("");
+		
+		
 		try {
 			userList = taskregisterdao.selectAllUser();
 		} catch (ClassNotFoundException | SQLException e) {
@@ -110,7 +136,9 @@ class TaskRegisterDAOTest {
 			e.printStackTrace();
 		}
 		assertNotNull(userList);
-
+		assertEquals("" ,userList.get(0).getUserId());
+		
+		verify(pstmt,times(1)).executeQuery();
 	}
 
 	@Test

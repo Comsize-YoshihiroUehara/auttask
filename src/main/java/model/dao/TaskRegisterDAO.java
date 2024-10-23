@@ -67,18 +67,18 @@ public class TaskRegisterDAO {
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
 
-			ResultSet res = pstmt.executeQuery();
+			ResultSet rs = pstmt.executeQuery();
 
 			userList = new ArrayList<>();
-			while (res.next()) {
-				UserBean user = new UserBean();
+			while (rs.next()) {
+				UserBean userbean = new UserBean();
 
-				String userId = res.getString("user_id");
-				String userName = res.getString("user_name");
+				String userId = rs.getString("user_id");
+				String userName = rs.getString("user_name");
 
-				user.setUserId(userId);
-				user.setUserName(userName);
-				userList.add(user);
+				userbean.setUserId(userId);
+				userbean.setUserName(userName);
+				userList.add(userbean);
 			}
 		}
 		return userList;
