@@ -12,8 +12,11 @@ import model.entity.TaskListBean;
 
 public class TaskDetailDAO {
 	// クリックしたタスク名に該当する一覧情報を取得するメソッド
-	public List<TaskListBean> selectSingleTask(int taskId) throws SQLException, ClassNotFoundException {
+	public TaskListBean selectTaskByTaskId(int taskId) 
+			throws SQLException, ClassNotFoundException {
+		TaskListBean taskSelected = null; //戻り値用変数
 		
+		/* SQL作成 ***********************************************/
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT");
 		sb.append(" t1.task_id,");
@@ -45,8 +48,7 @@ public class TaskDetailDAO {
 		sb.append(" WHERE");
 		sb.append(" t1.task_id = ?");
 		String sql = sb.toString();
-		
-		List<TaskListBean> taskSelected = null;
+		/* SQL作成 ***********************************************/
 		
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -55,34 +57,32 @@ public class TaskDetailDAO {
 			// SQL実行
 			ResultSet rs = pstmt.executeQuery();
 			
-			taskSelected = new ArrayList<>();
 			
 			while (rs.next()) {
-				TaskListBean bean = new TaskListBean();
-
-				bean.setTaskId(rs.getInt("task_id"));
-				bean.setTaskName(rs.getString("task_name"));
-				bean.setCategoryId(rs.getInt("category_id"));
-				bean.setCategoryName(rs.getString("category_name"));
-				bean.setLimitDate(rs.getDate("limit_date"));
-				bean.setUserId(rs.getString("user_id"));
-				bean.setUserName(rs.getString("user_name"));
-				bean.setStatusCode(rs.getString("status_code"));
-				bean.setStatusName(rs.getString("status_name"));
-				bean.setMemo(rs.getString("memo"));
-				bean.setCreateDateTime(rs.getTimestamp("create_datetime"));
-				bean.setUpdateTime(rs.getTimestamp("update_datetime"));
-
-				taskSelected.add(bean);
+				taskSelected = new TaskListBean();
+				taskSelected.setTaskId(rs.getInt("task_id"));
+				taskSelected.setTaskName(rs.getString("task_name"));
+				taskSelected.setCategoryId(rs.getInt("category_id"));
+				taskSelected.setCategoryName(rs.getString("category_name"));
+				taskSelected.setLimitDate(rs.getDate("limit_date"));
+				taskSelected.setUserId(rs.getString("user_id"));
+				taskSelected.setUserName(rs.getString("user_name"));
+				taskSelected.setStatusCode(rs.getString("status_code"));
+				taskSelected.setStatusName(rs.getString("status_name"));
+				taskSelected.setMemo(rs.getString("memo"));
+				taskSelected.setCreateDateTime(rs.getTimestamp("create_datetime"));
+				taskSelected.setUpdateTime(rs.getTimestamp("update_datetime"));
+				
+				return taskSelected;
 			}
 		}
-		
 		return taskSelected;
 		
 	}
 	
 	// タスク名をクリックしたときに表示するコメント情報を検索するメソッド
-	public TaskCommentsBean selectTask(int taskId) throws SQLException, ClassNotFoundException {
+	public List<TaskCommentsBean> selectCommentsByTaskId(int taskId) 
+			throws SQLException, ClassNotFoundException {
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT");
 		sb.append(" t1.comment_id,");
@@ -101,7 +101,7 @@ public class TaskDetailDAO {
 		sb.append(" t1.task_id = ?");
 		String sql = sb.toString();
 		
-		TaskCommentsBean taskDetail = new TaskCommentsBean();
+		List<TaskCommentsBean> taskComments = null;
 
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql);) {
@@ -111,16 +111,21 @@ public class TaskDetailDAO {
 			// SQLステートメントの実行
 			ResultSet res = pstmt.executeQuery();
 
+			taskComments = new ArrayList<>();
 			while (res.next()) {
-				taskDetail.setCommentId(res.getInt("comment_id"));
-				taskDetail.setTaskId(res.getInt("task_id"));
-				taskDetail.setTaskName(res.getString("task_name"));
-				taskDetail.setUserId(res.getString("user_id"));
-				taskDetail.setUserName(res.getString("user_name"));
-				taskDetail.setComment(res.getString("comment"));
-				taskDetail.setUpdateDateTime(res.getTimestamp("update_datetime"));
+				TaskCommentsBean bean = new TaskCommentsBean();
+				
+				bean.setCommentId(res.getInt("comment_id"));
+				bean.setTaskId(res.getInt("task_id"));
+				bean.setTaskName(res.getString("task_name"));
+				bean.setUserId(res.getString("user_id"));
+				bean.setUserName(res.getString("user_name"));
+				bean.setComment(res.getString("comment"));
+				bean.setUpdateDateTime(res.getTimestamp("update_datetime"));
+				
+				taskComments.add(bean);
 			}
 		}
-		return taskDetail;
+		return taskComments;
 	}
 }

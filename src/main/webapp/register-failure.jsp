@@ -5,8 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>エラー画面</title>
+<link rel="stylesheet" href="../css/bootstrap.css">
+<script src="../js/bootstrap.js"></script>
 </head>
 <body>
+	<jsp:include page="navbar.jsp">
+    	<jsp:param name="name" value="インクルード" />
+	</jsp:include>
+	
 	<h1>登録失敗</h1>
 	<hr>
 	<h2>タスクの登録に失敗しました。</h2>

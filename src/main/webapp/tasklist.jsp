@@ -18,8 +18,11 @@ List<TaskListBean> taskList = (List<TaskListBean>) session.getAttribute("taskLis
 </head>
 
 <body>
+	<jsp:include page="navbar.jsp">
+    	<jsp:param name="name" value="インクルード" />
+	</jsp:include>
+
 	<div class="container-sm"><h1>タスク一覧</h1></div>
-	
 	<%-- タスクが登録されている場合の表示 --%>
 	<%
 	if (!taskList.isEmpty()) {

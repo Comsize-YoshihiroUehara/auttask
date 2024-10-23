@@ -9,9 +9,9 @@
 <script src="js/bootstrap.js"></script>
 </head>
 <body>
-
+	<jsp:include page="navbar.jsp" />
 	<div class="container-sm"><h1>ログイン画面</h1></div>
-	
+
 	<div class="container-sm">
 		<form action="login" method="POST">
 			<table class="table table-bordered">
@@ -19,7 +19,6 @@
 					<th>ユーザID</th>
 					<td><input class="form-control" type="text" name="user_id">
 				</tr>
-
 				<tr>
 					<th>パスワード</th>
 					<td><input class="form-control" type="password" name="password">
