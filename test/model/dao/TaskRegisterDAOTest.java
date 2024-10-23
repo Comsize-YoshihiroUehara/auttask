@@ -9,25 +9,33 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import model.entity.CategoryBean;
+import model.entity.StatusBean;
 import model.entity.TaskBean;
 import model.entity.UserBean;
 
 class TaskRegisterDAOTest {
 	private TaskRegisterDAO dao;
 	private TaskBean bean;
-	private List<UserBean> userList;
-	private CategoryBean category;
 	private UserBean user;
+	private CategoryBean category;
+	private StatusBean status;
+	private List<UserBean> userList;
 	private List<CategoryBean> categoryList;
+	private List<StatusBean> statusList;
 	
 	@BeforeEach
 	public void 登録準備() {
-		categoryList = null;
-		userList = null;
-		category = new CategoryBean();
-		user = new UserBean();
 		dao = new TaskRegisterDAO();
 		bean = new TaskBean();
+		user = new UserBean();
+		category = new CategoryBean();
+		userList = null;
+		categoryList = null;
+		 statusList = null;
+		
+		
+		
+		
 	}
 
 	@Test
@@ -85,5 +93,17 @@ class TaskRegisterDAOTest {
 			e.printStackTrace();
 		}
 		assertNotNull(categoryList);
+	}
+	
+	@Test
+	public void ステータスリスト取得テスト() {
+		
+		try {
+			statusList = dao.selectAllStatus();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+		assertNotNull(statusList);
 	}
 }
