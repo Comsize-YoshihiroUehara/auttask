@@ -63,17 +63,21 @@ class UserDAOTest {
 		assertEquals("admin", bean.getUserId());
 		assertEquals("test", bean.getUserName());
 	}
-
+	
 	@Test
-	void ログイン失敗テスト() {
-		UserDAO dao = new UserDAO();
-		UserBean loginfalse = null;
-
+	void ログイン失敗時の動作確認テスト() throws SQLException {
+		userDAO = new UserDAO();
+		UserBean bean = null;
+		
+		when(con.prepareStatement(anyString())).thenReturn(pstmt);
+		when(pstmt.executeQuery()).thenReturn(rs);
+		when(rs.next()).thenReturn(false);
+		
 		try {
-			loginfalse = dao.login("ad", "root");
+			bean = userDAO.login("ad", "root");
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		assertNull(loginfalse);
+		assertNull(bean);
 	}
 }
