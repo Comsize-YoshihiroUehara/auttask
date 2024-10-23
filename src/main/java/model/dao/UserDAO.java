@@ -9,16 +9,15 @@ import model.entity.UserBean;
 
 public class UserDAO {
 
-	public UserBean login(String Userid, String Password) throws ClassNotFoundException, SQLException {
-
+	public UserBean login(String Userid, String Password) 
+			throws ClassNotFoundException, SQLException {
 		UserBean bean = new UserBean();
 
 		String sql = "SELECT user_id, user_name, update_datetime FROM m_user WHERE user_id = ? AND password = ?";
 
 		//データベース接続
 		try (Connection con = ConnectionManager.getConnection();
-				PreparedStatement pstmt = con
-						.prepareStatement(sql)) {
+				PreparedStatement pstmt = con.prepareStatement(sql)) {
 			//プレースホルダーにユーザーID・パスワードをセット
 			pstmt.setString(1, Userid);
 			pstmt.setString(2, Password);
