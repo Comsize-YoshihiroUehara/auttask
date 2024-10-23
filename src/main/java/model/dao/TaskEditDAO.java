@@ -119,7 +119,6 @@ public class TaskEditDAO {
 			pstmt.setInt(7, newTask.getTaskId());//task_id
 
 			//SQL実行
-			System.out.println(pstmt.toString());
 			rowsAffected = pstmt.executeUpdate();
 		}
 		return rowsAffected;
