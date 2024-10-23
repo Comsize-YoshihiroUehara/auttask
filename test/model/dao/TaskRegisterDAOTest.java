@@ -142,8 +142,15 @@ class TaskRegisterDAOTest {
 	}
 
 	@Test
-	public void カテゴリーリスト取得テスト() {
+	public void カテゴリーリスト取得テスト() throws SQLException {
 
+		
+		when(con.prepareStatement(anyString())).thenReturn(pstmt);
+		when(pstmt.executeQuery()).thenReturn(rs);
+		when(rs.next()).thenReturn(true).thenReturn(false);
+		when(rs.getInt("CategoryId")).thenReturn(0);
+		when(rs.getString("CategoryName")).thenReturn("");
+		
 		try {
 			categoryList = taskregisterdao.selectAllCategory();
 		} catch (ClassNotFoundException | SQLException e) {
@@ -151,6 +158,9 @@ class TaskRegisterDAOTest {
 			e.printStackTrace();
 		}
 		assertNotNull(categoryList);
+		assertEquals(0,categoryList.get(0).getCategoryId());
+		
+		verify(pstmt,times(1)).executeQuery();
 	}
 
 	@Test
